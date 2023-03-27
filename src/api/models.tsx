@@ -19,7 +19,7 @@ type Collection<Resource> = {
   data: Array<Resource>;
 };
 
-type SubjectType =
+export type SubjectType =
   | "assignment"
   | "kanji"
   | "level_progression"
