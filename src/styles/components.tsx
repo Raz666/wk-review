@@ -15,6 +15,8 @@ export const Divider = styled.View`
 export const BigBadge = styled.View<{
   type: BadgeType;
 }>`
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 2px;
   margin-right: 8px;
   background-color: ${({ type, theme }) => {
@@ -35,7 +37,9 @@ export const BigBadge = styled.View<{
 export const BigBadgeText = styled.Text<{
   type: BadgeType;
 }>`
-  padding: 2px 8px;
+  min-width: 28px;
+  min-height: 28px;
+  margin: 6px 8px;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.badge)};
   text-align: center;
   vertical-align: middle;

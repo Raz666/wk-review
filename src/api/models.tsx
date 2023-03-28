@@ -50,6 +50,16 @@ export type Reading = {
   accepted_answer: boolean;
   label?: string;
 };
+export type CharacterImage = {
+  url: string;
+  metadata: {
+    color?: string;
+    dimensions?: string;
+    style_name?: string;
+    inline_styles?: boolean;
+  };
+  content_type: "image/png" | "image/svg+xml";
+};
 
 export type Subject = {
   created_at: string;
@@ -57,7 +67,8 @@ export type Subject = {
   slug: string;
   hidden_at?: string;
   document_url: string;
-  characters: string;
+  characters?: string;
+  character_images?: CharacterImage[];
   meanings: Meaning[];
   auxiliary_meanings: AuxiliaryMeaning[];
   readings: Reading[];
