@@ -63,9 +63,9 @@ export const Progression = ({ subjectId }: Props) => {
       </Row>
       {isFetching ? (
         <ActivityIndicator />
-      ) : (
-        reviewStats && <ProgressionDetails reviewStats={reviewStats} />
-      )}
+      ) : reviewStats ? (
+        <ProgressionDetails reviewStats={reviewStats} />
+      ) : null}
     </>
   );
 };

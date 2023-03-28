@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "@emotion/native";
-import { StyleSheet, Text, View } from "react-native";
 
-import { H1 } from "../../styles";
-import { SubjectResource, SubjectType } from "../../api/models";
+import { BigBadge, BigBadgeText, H1 } from "../../styles";
+import { SubjectResource } from "../../api/models";
 
 type Props = {
   subject: SubjectResource;
@@ -19,21 +18,22 @@ export const Header = ({ subject }: Props) => {
     <>
       <Row>
         <BigBadge type="level">
-          <BigBadgeText>{level}</BigBadgeText>
+          <BigBadgeText type="level">{level}</BigBadgeText>
         </BigBadge>
         <BigBadge type={object}>
-          <BigBadgeText>{slug}</BigBadgeText>
+          <BigBadgeText type={object}>{slug}</BigBadgeText>
         </BigBadge>
         <H1>{primaryMeaning}</H1>
       </Row>
 
-      <View style={styles.navigation}>
-        <Text style={styles.navLabel}>Go To</Text>
-        <Text style={[styles.navLabel, styles.navItem]}>Meaning</Text>
-        <Text style={[styles.navLabel, styles.navItem]}>Readings</Text>
-        <Text style={[styles.navLabel, styles.navItem]}>Found In Vocab</Text>
-        <Text style={[styles.navLabel, styles.navItem]}>Progress</Text>
-      </View>
+      <Navigation>
+        <NavLabel>Go To</NavLabel>
+
+        <NavItem>Meaning</NavItem>
+        <NavItem>Readings</NavItem>
+        <NavItem>Found In Vocab</NavItem>
+        <NavItem>Progress</NavItem>
+      </Navigation>
     </>
   );
 };
@@ -42,57 +42,19 @@ const Row = styled.View`
   flex-direction: row;
 `;
 
-const BigBadge = styled.View<{
-  type: SubjectType | ("level" | "burned");
-}>`
-  border-radius: 2px;
-  margin-right: 8px;
-  background-color: ${({ type, theme }) => {
-    switch (type) {
-      case "level":
-        return theme.colors.levelBg;
-      case "kanji":
-        return theme.colors.kanjiBg;
-      default:
-        return theme.colors.levelBg;
-    }
-  }};
+const Navigation = styled.View`
+  margin-top: 16px;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
-const BigBadgeText = styled.Text`
-  flex: 1;
-  font-size: 26px;
-  line-height: 30px;
-  text-align: center;
-  vertical-align: middle;
+const NavLabel = styled.Text`
+  margin-right: 4px;
+  margin-bottom: 4px;
+  padding: 4px;
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
 `;
 
-const styles = StyleSheet.create({
-  levelBadge: {
-    backgroundColor: "#a1a1a1",
-  },
-  levelBadgeText: {
-    color: "#d5d5d5",
-  },
-  kanjiBadge: {
-    backgroundColor: "#f0a",
-  },
-  kanjiBadgeText: {
-    color: "#fff",
-  },
-
-  navigation: {
-    marginTop: 16,
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  navLabel: {
-    marginRight: 4,
-    marginBottom: 4,
-    padding: 4,
-    fontWeight: "300",
-  },
-  navItem: {
-    backgroundColor: "#e1e1e1",
-  },
-});
+const NavItem = styled(NavLabel)`
+  background-color: ${({ theme }) => theme.colors.hintBg};
+`;

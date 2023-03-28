@@ -13,14 +13,17 @@ declare module "@emotion/react" {
       levelBg: string;
       levelText: string;
       kanjiBg: string;
+      radicalBg: string;
+      burnedBg: string;
       subjectText: string;
     };
     fontSize: {
-      small: number;
-      default: number;
       h1: number;
       h2: number;
       h3: number;
+      badge: number;
+      default: number;
+      small: number;
     };
     fontWeight: {
       light: string;

@@ -20,9 +20,9 @@ export const WaniKani = () => {
         <ActivityIndicator />
       ) : (
         <>
-          {subject && <SubjectPage subject={subject} />}
+          {subject ? <SubjectPage subject={subject} /> : null}
 
-          <Text>{isError && isError.toString()}</Text>
+          {isError ? <Text>{isError.toString()}</Text> : null}
         </>
       )}
     </ScrollView>

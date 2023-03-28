@@ -29,38 +29,34 @@ export const Vocabs = ({ subject }: Props) => {
 
       {isFetching ? (
         <ActivityIndicator />
-      ) : (
-        vocabs && (
-          <>
-            {vocabs.data.map((r, index) => (
-              <Box key={r.id}>
-                <Row>
-                  <Slug>{r.data.slug}</Slug>
-                  <View>
-                    <Detail>{getReading(r.data.readings)}</Detail>
-                    <Detail>{getMeaning(r.data.meanings)}</Detail>
-                  </View>
-                </Row>
-              </Box>
-            ))}
-          </>
-        )
-      )}
+      ) : vocabs ? (
+        vocabs.data.map((r, index) => (
+          <Box key={r.id}>
+            <Row>
+              <Slug>{r.data.slug}</Slug>
+              <View>
+                <Detail>{getReading(r.data.readings)}</Detail>
+                <Detail>{getMeaning(r.data.meanings)}</Detail>
+              </View>
+            </Row>
+          </Box>
+        ))
+      ) : null}
     </>
   );
 };
 
 const Box = styled.View`
   width: 100%;
-  padding: 6px;
+  padding: 6px 8px;
   background-color: #a0f;
-  border-width: 1px 0;
-  border-color: #c655ff transparent #80c #c655ff;
+  border-width: 0 0 1px 0;
+  border-color: #80c;
 `;
 
 const Slug = styled.Text`
   vertical-align: middle;
-  font-size: ${({ theme }) => numberToPx(theme.fontSize.h3)};
+  font-size: ${({ theme }) => numberToPx(theme.fontSize.badge)};
   color: #fff;
 `;
 

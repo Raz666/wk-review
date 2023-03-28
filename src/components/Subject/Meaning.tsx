@@ -34,10 +34,12 @@ export const Meaning = ({ subject }: Props) => {
         <AttributeLabel>Primary</AttributeLabel>
         <AttributeValue>{primary}</AttributeValue>
       </Row>
-      <Row>
-        <AttributeLabel>Alternatives</AttributeLabel>
-        <AttributeValue>{alternatives.join(", ")}</AttributeValue>
-      </Row>
+      {alternatives?.length ? (
+        <Row>
+          <AttributeLabel>Alternatives</AttributeLabel>
+          <AttributeValue>{alternatives.join(", ")}</AttributeValue>
+        </Row>
+      ) : null}
       <Row>
         <AttributeLabel>User synonyms</AttributeLabel>
         {isFetching ? (
