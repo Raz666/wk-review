@@ -1,11 +1,11 @@
 import React from "react";
-import { ActivityIndicator, Text } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import styled from "@emotion/native";
 
 import { H2, H3, P, Divider } from "../../styles";
 import { SubjectResource } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
-import { Hints } from "./common";
+import { Hints, MnemonicText } from "./common";
 
 type Props = {
   subject: SubjectResource;
@@ -54,7 +54,8 @@ export const Meaning = ({ subject }: Props) => {
         )}
       </Row>
       <H3>Mnemonic</H3>
-      <P>{meaning_mnemonic}</P>
+
+      <MnemonicText mnemonic={meaning_mnemonic} />
 
       <Hints hint={meaning_hint} />
 

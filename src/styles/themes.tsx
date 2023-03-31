@@ -28,6 +28,7 @@ export const lightTheme: Theme = {
     light: "200",
     regular: "300",
     bold: "600",
+    heavy: "900",
   },
 };
 

@@ -5,7 +5,7 @@ import styled from "@emotion/native";
 import { H2, H3, P, Divider } from "../../styles";
 import { Reading as ReadingModel, SubjectResource } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
-import { Hints } from "./common";
+import { Hints, MnemonicText } from "./common";
 
 type Props = {
   subject: SubjectResource;
@@ -59,7 +59,7 @@ export const Reading = ({ subject }: Props) => {
         ))}
       </Row>
       <H3>Mnemonic</H3>
-      <P>{reading_mnemonic}</P>
+      <MnemonicText mnemonic={reading_mnemonic} />
 
       <Hints hint={reading_hint} />
 
