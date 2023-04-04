@@ -12,33 +12,33 @@ type Props = {
   subject: SubjectResource;
 };
 
-export const RadicalCombination = ({ subject }: Props) => {
-  const { component_subject_ids } = subject.data;
+export const FoundInKanji = ({ subject }: Props) => {
+  const { amalgamation_subject_ids } = subject.data;
   const { data: radicals, isFetching } = useGetSubjectsQuery({
-    subjectIds: component_subject_ids,
+    subjectIds: amalgamation_subject_ids,
   });
-  const lastRadicalIndex = component_subject_ids.length - 1;
 
   return (
     <>
-      <H2>Radical Combination</H2>
+      <H2>Found in kanji</H2>
       <Divider />
 
       {isFetching ? (
         <ActivityIndicator />
       ) : radicals ? (
         <Row>
-          {radicals.data.map((r, index) => (
-            <Radical key={r.id}>
-              <CharBadge
-                object="radical"
-                characters={r.data.characters}
-                charImages={r.data.character_images}
-              />
-              <Slug>{r.data.slug}</Slug>
-              {index !== lastRadicalIndex ? <Plus>+</Plus> : null}
-            </Radical>
-          ))}
+          {radicals.data.map((r, index) => {
+            const name = r.data.meanings.find((m) => m.primary)?.meaning;
+            const reading = r.data.readings.find((r) => r.primary)?.reading;
+
+            return (
+              <Radical key={r.id}>
+                <CharBadge object="kanji" characters={r.data.characters} />
+                <Slug>{reading}</Slug>
+                <Slug>{name}</Slug>
+              </Radical>
+            );
+          })}
         </Row>
       ) : null}
     </>

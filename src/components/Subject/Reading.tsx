@@ -61,7 +61,9 @@ export const Reading = ({ subject }: Props) => {
       <H3>Mnemonic</H3>
       <MnemonicText mnemonic={reading_mnemonic} />
 
-      <Hints hint={reading_hint} />
+      <Hints>
+        <MnemonicText mnemonic={reading_hint} />
+      </Hints>
 
       <H3>Note</H3>
       {isFetching ? (

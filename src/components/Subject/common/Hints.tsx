@@ -1,17 +1,13 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import styled from "@emotion/native";
 
-import { DefaultText, P } from "../../../styles";
+import { DefaultText } from "../../../styles";
 
-type Props = {
-  hint: string;
-};
-
-export const Hints = ({ hint }: Props) => {
+export const Hints = ({ children }: PropsWithChildren) => {
   return (
     <Well>
       <Title>Hints</Title>
-      <P>{hint}</P>
+      {children}
     </Well>
   );
 };

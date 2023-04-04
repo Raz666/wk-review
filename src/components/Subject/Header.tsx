@@ -3,6 +3,7 @@ import styled from "@emotion/native";
 
 import { BigBadge, BigBadgeText, H1 } from "../../styles";
 import { SubjectResource } from "../../api/models";
+import { CharBadge } from "./common";
 
 type Props = {
   subject: SubjectResource;
@@ -10,8 +11,9 @@ type Props = {
 
 export const Header = ({ subject }: Props) => {
   const { object } = subject;
-  const { level, slug, characters, meanings } = subject.data;
+  const { level, slug, characters, character_images, meanings } = subject.data;
 
+  const isRadical = object === "radical";
   const primaryMeaning = meanings.find((m) => m.primary)?.meaning;
 
   return (
@@ -20,9 +22,18 @@ export const Header = ({ subject }: Props) => {
         <BigBadge type="level">
           <BigBadgeText type="level">{level}</BigBadgeText>
         </BigBadge>
-        <BigBadge type={object}>
-          <BigBadgeText type={object}>{slug}</BigBadgeText>
-        </BigBadge>
+        {/* <BigBadge type={object}>
+          {isRadical ? (
+            <RadicalImg source={getCharacterImage(r.data.character_images)} />
+          ) : (
+            <BigBadgeText type={object}>{slug}</BigBadgeText>
+          )}
+        </BigBadge> */}
+        <CharBadge
+          object={object}
+          characters={characters}
+          charImages={character_images}
+        />
         <H1>{primaryMeaning}</H1>
       </Row>
 

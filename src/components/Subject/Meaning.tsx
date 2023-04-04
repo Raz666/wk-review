@@ -18,6 +18,7 @@ export const Meaning = ({ subject }: Props) => {
     isFetching,
     data: studyMatsCollection,
   } = useGetStudyMaterialsQuery({ subjectId: subject.id });
+  const isRadical = subject.object === "radical";
   const studyMats = studyMatsCollection?.data[0]?.data;
 
   const primary = meanings.find((m) => m.primary)?.meaning;
@@ -27,7 +28,7 @@ export const Meaning = ({ subject }: Props) => {
 
   return (
     <>
-      <H2>Meaning</H2>
+      <H2>{isRadical ? "Name" : "Meaning"}</H2>
 
       <Divider />
       <Row>
@@ -53,11 +54,15 @@ export const Meaning = ({ subject }: Props) => {
           </Row>
         )}
       </Row>
-      <H3>Mnemonic</H3>
 
+      <H3>Mnemonic</H3>
       <MnemonicText mnemonic={meaning_mnemonic} />
 
-      <Hints hint={meaning_hint} />
+      {meaning_hint ? (
+        <Hints>
+          <MnemonicText mnemonic={meaning_hint} />
+        </Hints>
+      ) : null}
 
       <H3>Note</H3>
       <P>{studyMats?.meaning_note || "Click to add note (TBD)"}</P>
