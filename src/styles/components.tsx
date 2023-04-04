@@ -9,15 +9,14 @@ export const Divider = styled.View`
   margin-top: 8px;
   margin-bottom: 8px;
   border-top-width: 1px;
-  border-top-color: #d5d5d5;
+  border-top-color: ${({ theme }) => theme.colors.levelText};
 `;
 
 export const BigBadge = styled.View<{
   type: BadgeType;
 }>`
-  min-width: 44px;
+  min-width: 47px;
   min-height: 44px;
-  border-radius: 2px;
   margin-right: 8px;
   background-color: ${({ type, theme }) => {
     switch (type) {
@@ -32,6 +31,21 @@ export const BigBadge = styled.View<{
         return theme.colors.levelBg;
     }
   }};
+  border-bottom-width: 3px;
+  border-color: ${({ type, theme }) => {
+    switch (type) {
+      case "level":
+        return theme.colors.levelBorder;
+      case "kanji":
+        return theme.colors.kanjiBorder;
+      case "radical":
+        return theme.colors.radicalBorder;
+
+      default:
+        return theme.colors.levelBorder;
+    }
+  }};
+  border-radius: 3px;
 `;
 
 export const BigBadgeText = styled.Text<{

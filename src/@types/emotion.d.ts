@@ -11,13 +11,19 @@ declare module "@emotion/react" {
       hintBg: string;
       hintText: string;
       levelBg: string;
+      levelBorder: string;
       levelText: string;
+      vocabBg: string;
+      vocabBorder: string;
       kanjiBg: string;
+      kanjiBorder: string;
       radicalBg: string;
+      radicalBorder: string;
       burnedBg: string;
       subjectText: string;
     };
     fontSize: {
+      huge: number;
       h1: number;
       h2: number;
       h3: number;
@@ -28,6 +34,7 @@ declare module "@emotion/react" {
     fontWeight: {
       light: string;
       regular: string;
+      medium: string;
       bold: string;
       heavy: string;
     };

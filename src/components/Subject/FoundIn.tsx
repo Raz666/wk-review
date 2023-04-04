@@ -1,8 +1,8 @@
 import React from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H3, P, Divider } from "../../styles";
+import { H2, Divider } from "../../styles";
 import { Meaning, Reading, SubjectResource } from "../../api/models";
 import { useGetSubjectsQuery } from "../../api/subjectApi";
 import { numberToPx } from "../../styles/helpers";
@@ -11,11 +11,13 @@ type Props = {
   subject: SubjectResource;
 };
 
-export const Vocabs = ({ subject }: Props) => {
+export const FoundIn = ({ subject }: Props) => {
   const { amalgamation_subject_ids } = subject.data;
   const { data: vocabs, isFetching } = useGetSubjectsQuery({
     subjectIds: amalgamation_subject_ids,
   });
+
+  const isRadical = subject.object === "radical";
 
   const getReading = (readings: Reading[]) =>
     readings.find((r) => r.primary)?.reading;
@@ -31,13 +33,13 @@ export const Vocabs = ({ subject }: Props) => {
         <ActivityIndicator />
       ) : vocabs ? (
         vocabs.data.map((r, index) => (
-          <Box key={r.id}>
+          <Box key={r.id} isRadical={isRadical}>
             <Row>
-              <Slug>{r.data.slug}</Slug>
-              <View>
+              <Characters>{r.data.characters}</Characters>
+              <Column>
                 <Detail>{getReading(r.data.readings)}</Detail>
                 <Detail>{getMeaning(r.data.meanings)}</Detail>
-              </View>
+              </Column>
             </Row>
           </Box>
         ))
@@ -46,27 +48,37 @@ export const Vocabs = ({ subject }: Props) => {
   );
 };
 
-const Box = styled.View`
-  width: 100%;
-  padding: 6px 8px;
-  background-color: #a0f;
-  border-width: 0 0 1px 0;
-  border-color: #80c;
+const Row = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
-const Slug = styled.Text`
+const Column = styled.View`
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const Box = styled.View<{ isRadical: boolean }>`
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 6px 8px;
+  background-color: ${({ theme, isRadical }) =>
+    isRadical ? theme.colors.kanjiBg : theme.colors.vocabBg};
+  border-bottom-width: 3px;
+  border-color: ${({ theme, isRadical }) =>
+    isRadical ? theme.colors.kanjiBorder : theme.colors.vocabBorder};
+  border-radius: 3px;
+`;
+
+const Characters = styled.Text`
   vertical-align: middle;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.badge)};
-  color: #fff;
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.subjectText};
 `;
 
 const Detail = styled.Text`
   text-align: right;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.small)};
-  color: #fff;
-`;
-
-const Row = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+  color: ${({ theme }) => theme.colors.subjectText};
 `;

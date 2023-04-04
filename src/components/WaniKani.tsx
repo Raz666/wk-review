@@ -9,7 +9,7 @@ export const WaniKani = () => {
     isError: isErrorSubject,
     isFetching: isFetchingSubject,
     data: subject,
-  } = useGetSubjectQuery({ subjectId: 51 });
+  } = useGetSubjectQuery({ subjectId: 1553 });
 
   const isLoading = isFetchingSubject;
   const isError = isErrorSubject;

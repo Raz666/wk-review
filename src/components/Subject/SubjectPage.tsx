@@ -4,11 +4,10 @@ import styled from "@emotion/native";
 import { SubjectResource } from "../../api/models";
 import { Meaning } from "./Meaning";
 import { Reading } from "./Reading";
-import { Vocabs } from "./Vocabs";
+import { FoundIn } from "./FoundIn";
 import { RadicalCombination } from "./RadicalCombination";
 import { Progression } from "./Progression";
 import { Header } from "./Header";
-import { FoundInKanji } from "./FoundInKanji";
 
 type Props = {
   subject: SubjectResource;
@@ -26,10 +25,13 @@ export const SubjectPage = ({ subject }: Props) => {
       <Header subject={subject} />
 
       {isKanji ? <RadicalCombination subject={subject} /> : null}
+
       <Meaning subject={subject} />
+
       {!isRadical ? <Reading subject={subject} /> : null}
-      {isKanji ? <Vocabs subject={subject} /> : null}
-      {isRadical ? <FoundInKanji subject={subject} /> : null}
+
+      {isRadical || isKanji ? <FoundIn subject={subject} /> : null}
+
       <Progression subjectId={subject.id} />
     </Container>
   );
