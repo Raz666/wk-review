@@ -22,13 +22,6 @@ export const Header = ({ subject }: Props) => {
         <BigBadge type="level">
           <BigBadgeText type="level">{level}</BigBadgeText>
         </BigBadge>
-        {/* <BigBadge type={object}>
-          {isRadical ? (
-            <RadicalImg source={getCharacterImage(r.data.character_images)} />
-          ) : (
-            <BigBadgeText type={object}>{slug}</BigBadgeText>
-          )}
-        </BigBadge> */}
         <CharBadge
           object={object}
           characters={characters}
@@ -51,6 +44,8 @@ export const Header = ({ subject }: Props) => {
 
 const Row = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const Navigation = styled.View`

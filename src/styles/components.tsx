@@ -17,11 +17,12 @@ export const BigBadge = styled.View<{
 }>`
   min-width: 47px;
   min-height: 44px;
-  margin-right: 8px;
   background-color: ${({ type, theme }) => {
     switch (type) {
       case "level":
         return theme.colors.levelBg;
+      case "vocabulary":
+        return theme.colors.vocabBg;
       case "kanji":
         return theme.colors.kanjiBg;
       case "radical":
@@ -36,6 +37,8 @@ export const BigBadge = styled.View<{
     switch (type) {
       case "level":
         return theme.colors.levelBorder;
+      case "vocabulary":
+        return theme.colors.vocabBorder;
       case "kanji":
         return theme.colors.kanjiBorder;
       case "radical":
@@ -62,6 +65,7 @@ export const BigBadgeText = styled.Text<{
     switch (type) {
       case "level":
         return theme.colors.levelText;
+      case "vocabulary":
       case "kanji":
       case "radical":
         return theme.colors.subjectText;

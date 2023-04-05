@@ -9,7 +9,6 @@ export const DefaultText = styled.Text`
 `;
 
 export const H1 = styled(DefaultText)`
-  margin-left: 8px;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.h1)};
 `;
 

@@ -44,7 +44,7 @@ type AuxiliaryMeaning = {
   meaning: string;
 };
 export type Reading = {
-  type: ReadingType;
+  type?: ReadingType;
   primary: boolean;
   reading: string;
   accepted_answer: boolean;
@@ -60,6 +60,22 @@ export type CharacterImage = {
   };
   content_type: "image/png" | "image/svg+xml";
 };
+export type ContextSentence = {
+  en: string;
+  ja: string;
+};
+export type PronunciationAudio = {
+  url: string;
+  metadata: {
+    gender: "female" | "male";
+    source_id: number;
+    pronunciation: string;
+    voice_actor_id: number;
+    voice_actor_name: string;
+    voice_description: string;
+  };
+  content_type: "audio/ogg" | "audio/mpeg";
+};
 
 export type Subject = {
   created_at: string;
@@ -71,14 +87,17 @@ export type Subject = {
   character_images?: CharacterImage[];
   meanings: Meaning[];
   auxiliary_meanings: AuxiliaryMeaning[];
-  readings: Reading[];
+  meaning_mnemonic: string;
+  meaning_hint?: string;
+  readings?: Reading[];
+  reading_hint?: string;
+  parts_of_speech?: string[];
   component_subject_ids: number[];
   amalgamation_subject_ids: number[];
   visually_similar_subject_ids: number[];
-  meaning_mnemonic: string;
-  meaning_hint: string;
   reading_mnemonic: string;
-  reading_hint: string;
+  context_sentences?: ContextSentence[];
+  pronunciation_audios?: PronunciationAudio[];
   lesson_Position: number;
   spaced_repetition_system_id: number;
 };

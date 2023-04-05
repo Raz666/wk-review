@@ -9,14 +9,14 @@ type Props = {
 
 export const MnemonicText = ({ mnemonic }: Props) => {
   const regEx =
-    /<radical>.*?<\/radical>|<kanji>.*?<\/kanji>|<reading>.*?<\/reading>|<ja>.*?<\/ja>/gim;
+    /<radical>.*?<\/radical>|<kanji>.*?<\/kanji>|<vocabulary>.*?<\/vocabulary>|<reading>.*?<\/reading>|<ja>.*?<\/ja>/gim;
 
-  const parts = mnemonic.split(regEx);
-  const matches = mnemonic.match(regEx) || [];
+  const parts = mnemonic?.split(regEx);
+  const matches = mnemonic?.match(regEx) || [];
 
   return (
     <P>
-      {parts.map((part, index) => (
+      {parts?.map((part, index) => (
         <FormattedPartWrap key={index}>
           {part}
           {matches?.length >= index &&
@@ -30,6 +30,12 @@ export const MnemonicText = ({ mnemonic }: Props) => {
               <Kanji>
                 {matches[index].replace("<kanji>", "").replace("</kanji>", "")}
               </Kanji>
+            ) : matches[index]?.includes("vocabulary>") ? (
+              <Vocab>
+                {matches[index]
+                  .replace("<vocabulary>", "")
+                  .replace("</vocabulary>", "")}
+              </Vocab>
             ) : matches[index]?.includes("reading>") ? (
               <Reading>
                 {matches[index]
@@ -57,11 +63,15 @@ const Highlight = styled(P)`
 `;
 
 const Radical = styled(Highlight)`
-  color: ${({ theme }) => theme.colors.radicalBg};
+  color: ${({ theme }) => theme.colors.radicalBorder};
 `;
 
 const Kanji = styled(Highlight)`
-  color: ${({ theme }) => theme.colors.kanjiBg};
+  color: ${({ theme }) => theme.colors.kanjiBorder};
+`;
+
+const Vocab = styled(Highlight)`
+  color: ${({ theme }) => theme.colors.vocabBorder};
 `;
 
 const Reading = styled(Highlight)`

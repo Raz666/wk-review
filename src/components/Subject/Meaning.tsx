@@ -2,8 +2,8 @@ import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H3, P, Divider } from "../../styles";
-import { SubjectResource } from "../../api/models";
+import { H2, H3, P, Divider, DefaultText } from "../../styles";
+import { SubjectResource, SubjectType } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
 import { Hints, MnemonicText } from "./common";
 
@@ -12,13 +12,13 @@ type Props = {
 };
 
 export const Meaning = ({ subject }: Props) => {
-  const { meanings, meaning_mnemonic, meaning_hint } = subject.data;
+  const { meanings, meaning_mnemonic, meaning_hint, parts_of_speech } =
+    subject.data;
   const {
     isError,
     isFetching,
     data: studyMatsCollection,
   } = useGetStudyMaterialsQuery({ subjectId: subject.id });
-  const isRadical = subject.object === "radical";
   const studyMats = studyMatsCollection?.data[0]?.data;
 
   const primary = meanings.find((m) => m.primary)?.meaning;
@@ -26,34 +26,57 @@ export const Meaning = ({ subject }: Props) => {
     .filter((m) => !m.primary && m.accepted_answer)
     .map((alt) => alt.meaning);
 
+  const getTitle = (object: SubjectType) => {
+    switch (object) {
+      case "radical":
+        return "Name";
+      case "vocabulary":
+        return "Explanation";
+      default:
+        return "Meaning";
+    }
+  };
+
   return (
     <>
-      <H2>{isRadical ? "Name" : "Meaning"}</H2>
+      <H2>{getTitle(subject.object)}</H2>
 
       <Divider />
-      <Row>
-        <AttributeLabel>Primary</AttributeLabel>
-        <AttributeValue>{primary}</AttributeValue>
-      </Row>
-      {alternatives?.length ? (
+      <Col>
         <Row>
-          <AttributeLabel>Alternatives</AttributeLabel>
-          <AttributeValue>{alternatives.join(", ")}</AttributeValue>
+          <AttributeLabel>Primary</AttributeLabel>
+          <AttributeValue>{primary}</AttributeValue>
         </Row>
-      ) : null}
-      <Row>
-        <AttributeLabel>User synonyms</AttributeLabel>
-        {isFetching ? (
-          <ActivityIndicator />
-        ) : (
+        {alternatives?.length ? (
           <Row>
-            {studyMats?.meaning_synonyms.map((ms, index) => (
-              <UserAttribute key={index}>{ms}</UserAttribute>
-            ))}
-            <AddBtn>+ Add synonym</AddBtn>
+            <AttributeLabel>Alternatives</AttributeLabel>
+            <AttributeValue>{alternatives.join(", ")}</AttributeValue>
           </Row>
-        )}
-      </Row>
+        ) : null}
+        <Row>
+          <AttributeLabel>User synonyms</AttributeLabel>
+          {isFetching ? (
+            <ActivityIndicator />
+          ) : (
+            <SubRow>
+              {studyMats?.meaning_synonyms.map((ms, index) => (
+                <UserAttribute key={index}>
+                  <UserAttributeText>{ms}</UserAttributeText>
+                </UserAttribute>
+              ))}
+              <AddBtn>
+                <AddBtnText>+ Add synonym</AddBtnText>
+              </AddBtn>
+            </SubRow>
+          )}
+        </Row>
+        {parts_of_speech?.length ? (
+          <Row>
+            <AttributeLabel>Word type</AttributeLabel>
+            <AttributeValue>{parts_of_speech.join(", ")}</AttributeValue>
+          </Row>
+        ) : null}
+      </Col>
 
       <H3>Mnemonic</H3>
       <MnemonicText mnemonic={meaning_mnemonic} />
@@ -70,31 +93,49 @@ export const Meaning = ({ subject }: Props) => {
   );
 };
 
+const Col = styled.View`
+  flex-direction: column;
+  gap: 4px;
+`;
+
 const Row = styled.View`
   flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 8px;
   margin-bottom: 8px;
 `;
 
-const AttributeValue = styled.Text`
-  margin-right: 8px;
+const SubRow = styled.View`
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+`;
+
+const AttributeValue = styled(DefaultText)`
   font-size: ${({ theme }) => theme.fontSize.small};
-  color: ${({ theme }) => theme.colors.secondaryText};
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 const AttributeLabel = styled(AttributeValue)`
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.colors.secondaryText};
 `;
 
-const UserAttribute = styled(AttributeValue)`
+const UserAttribute = styled.View`
   padding: 0 4px;
   background-color: ${({ theme }) => theme.colors.hintBg};
+  border-radius: 3px;
+`;
+
+const UserAttributeText = styled(AttributeValue)`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.colors.buttonText};
-  border-radius: 4px;
 `;
 
 const AddBtn = styled(UserAttribute)`
-  padding: 0px 4px;
   background-color: ${({ theme }) => theme.colors.buttonBg};
+`;
+
+const AddBtnText = styled(UserAttributeText)`
+  text-transform: uppercase;
 `;
