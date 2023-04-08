@@ -9,10 +9,11 @@ import { numberToPx } from "../../styles/helpers";
 
 type Props = {
   type: SubjectType;
+  goToSubject: (subjectId: number) => void;
   subjectIds?: number[];
 };
 
-export const FoundIn = ({ subjectIds, type }: Props) => {
+export const FoundIn = ({ subjectIds, type, goToSubject }: Props) => {
   const { data: vocabs, isFetching } = useGetSubjectsQuery({
     subjectIds: subjectIds ?? [],
   });
@@ -42,7 +43,7 @@ export const FoundIn = ({ subjectIds, type }: Props) => {
         <ActivityIndicator />
       ) : vocabs ? (
         vocabs.data.map((r, index) => (
-          <Box key={r.id} type={type}>
+          <Box key={r.id} type={type} onTouchEnd={() => goToSubject(r.id)}>
             <Row>
               <Characters>{r.data.characters}</Characters>
               <Column>

@@ -12,9 +12,11 @@ import { Context } from "./Context";
 
 type Props = {
   subject: SubjectResource;
+  goToSubject: (subjectId: number) => void;
 };
 
-export const SubjectPage = ({ subject }: Props) => {
+export const SubjectPage = ({ subject, goToSubject }: Props) => {
+  console.log("SubjectPage: ", subject.id);
   const { object } = subject;
   const { amalgamation_subject_ids, component_subject_ids, context_sentences } =
     subject.data;
@@ -33,6 +35,7 @@ export const SubjectPage = ({ subject }: Props) => {
       {context_sentences ? <Context sentences={context_sentences} /> : null}
       <FoundIn
         type={subject.object}
+        goToSubject={goToSubject}
         subjectIds={isVocab ? component_subject_ids : amalgamation_subject_ids}
       />
 
