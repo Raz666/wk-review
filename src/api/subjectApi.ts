@@ -13,9 +13,15 @@ export const subjectApi = api.injectEndpoints({
       providesTags: ["Subject"],
       query: ({ subjectId }) => `/subjects/${subjectId}`,
     }),
-    getSubjects: build.query<SubjectsCollection, { subjectIds: number[] }>({
+    getSubjects: build.query<
+      SubjectsCollection,
+      { subjectIds?: number[]; levels?: number[] }
+    >({
       providesTags: ["Subject"],
-      query: ({ subjectIds }) => `/subjects?ids=${subjectIds}`,
+      query: ({ subjectIds, levels }) =>
+        "/subjects?" +
+        (subjectIds ? `ids=${subjectIds}` : "") +
+        (levels ? `levels=${levels}` : ""),
     }),
     getStudyMaterials: build.query<
       StudyMaterialsCollection,

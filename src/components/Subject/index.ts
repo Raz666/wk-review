@@ -1,2 +1,1 @@
-export * from "../../api/models";
-export * from "./SubjectPage";
+export * from "./Subject";

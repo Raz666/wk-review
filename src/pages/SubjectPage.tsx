@@ -3,13 +3,12 @@ import React from "react";
 import { ActivityIndicator, StyleSheet, Text, ScrollView } from "react-native";
 
 import { useGetSubjectQuery } from "../api/subjectApi";
-import { RootStackParams } from "./navigation.models";
-import { SubjectPage } from "./Subject";
+import { RootStackParams } from "../navigation/navigation.models";
+import { Subject } from "../components";
 
 type Props = NativeStackScreenProps<RootStackParams, "Subject">;
-export const WaniKani = ({ navigation, route }: Props) => {
+export const SubjectPage = ({ navigation, route }: Props) => {
   const { subjectId } = route.params;
-  console.log("WaniKani: ", subjectId);
   const {
     isError: isErrorSubject,
     isFetching: isFetchingSubject,
@@ -20,7 +19,6 @@ export const WaniKani = ({ navigation, route }: Props) => {
   const isError = isErrorSubject;
 
   const goToSubject = (subjectId: number) => {
-    console.log(subjectId);
     navigation.push("Subject", { subjectId: subjectId });
   };
 
@@ -31,7 +29,7 @@ export const WaniKani = ({ navigation, route }: Props) => {
       ) : (
         <>
           {subject ? (
-            <SubjectPage subject={subject} goToSubject={goToSubject} />
+            <Subject subject={subject} goToSubject={goToSubject} />
           ) : null}
 
           {isError ? <Text>{isError.toString()}</Text> : null}

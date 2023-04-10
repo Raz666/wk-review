@@ -4,7 +4,6 @@ const snakeToCamelCase = (key: string) =>
   );
 
 export function parse(responseOrText: string | Response): any {
-  // console.log(responseOrText);
   if (typeof responseOrText === "string") {
     const text = responseOrText.replace(/"([^"]*)"\s*:/g, snakeToCamelCase);
     return JSON.parse(text);

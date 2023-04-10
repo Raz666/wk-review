@@ -15,8 +15,7 @@ type Props = {
   goToSubject: (subjectId: number) => void;
 };
 
-export const SubjectPage = ({ subject, goToSubject }: Props) => {
-  console.log("SubjectPage: ", subject.id);
+export const Subject = ({ subject, goToSubject }: Props) => {
   const { object } = subject;
   const { amalgamation_subject_ids, component_subject_ids, context_sentences } =
     subject.data;
@@ -28,7 +27,9 @@ export const SubjectPage = ({ subject, goToSubject }: Props) => {
   return (
     <Container>
       <Header subject={subject} />
-      {isKanji ? <RadicalCombination subject={subject} /> : null}
+      {isKanji ? (
+        <RadicalCombination subject={subject} goToSubject={goToSubject} />
+      ) : null}
       <Meaning subject={subject} />
       {!isRadical ? <Reading subject={subject} /> : null}
 

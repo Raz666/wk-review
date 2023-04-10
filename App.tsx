@@ -7,8 +7,9 @@ import { ThemeProvider } from "@emotion/react";
 
 import { store } from "./src/store/store";
 import { lightTheme } from "./src/styles";
-import { WaniKani } from "./src/components/WaniKani";
-import { RootStackParams } from "./src/components/navigation.models";
+import { SubjectPage } from "./src/pages/SubjectPage";
+import { RootStackParams } from "./src/navigation/navigation.models";
+import { LevelPage } from "./src/pages/LevelPage";
 
 export default function App() {
   const scheme = useColorScheme();
@@ -20,15 +21,27 @@ export default function App() {
         <NavigationContainer>
           {/* <View style={styles.container}>
             <WaniKani />
-            <StatusBar style="auto" />
+            
           </View> */}
           <Stack.Navigator>
-            <Stack.Screen name="Subject" options={{ headerShown: false }}>
+            <Stack.Screen name="Level" options={{ headerShown: false }}>
               {(props) => (
-                <WaniKani
+                <LevelPage
                   {...props}
                   route={{
                     key: "1",
+                    name: "Level",
+                    params: { levels: props?.route?.params?.levels ?? [1] },
+                  }}
+                />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="Subject" options={{ headerShown: false }}>
+              {(props) => (
+                <SubjectPage
+                  {...props}
+                  route={{
+                    key: "2",
                     name: "Subject",
                     params: { subjectId: props?.route?.params?.subjectId ?? 1 },
                   }}
@@ -37,6 +50,7 @@ export default function App() {
             </Stack.Screen>
           </Stack.Navigator>
         </NavigationContainer>
+        <StatusBar style="auto" />
       </ThemeProvider>
     </Provider>
   );

@@ -10,9 +10,10 @@ import { CharBadge } from "./common";
 
 type Props = {
   subject: SubjectResource;
+  goToSubject: (subjectId: number) => void;
 };
 
-export const RadicalCombination = ({ subject }: Props) => {
+export const RadicalCombination = ({ subject, goToSubject }: Props) => {
   const { component_subject_ids } = subject.data;
   const { data: radicals, isFetching } = useGetSubjectsQuery({
     subjectIds: component_subject_ids,
@@ -29,7 +30,7 @@ export const RadicalCombination = ({ subject }: Props) => {
       ) : radicals ? (
         <Row>
           {radicals.data.map((r, index) => (
-            <Radical key={r.id}>
+            <Radical key={r.id} onPress={() => goToSubject(r.id)}>
               <CharBadge
                 object="radical"
                 characters={r.data.characters}
@@ -48,12 +49,13 @@ export const RadicalCombination = ({ subject }: Props) => {
 const Row = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 12px;
 `;
 
-const Radical = styled.View`
+const Radical = styled.Pressable`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 12px;
 `;
 
 const Slug = styled(DefaultText)`
@@ -62,7 +64,6 @@ const Slug = styled(DefaultText)`
 `;
 
 const Plus = styled.Text`
-  margin: 0 12px;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.h3)};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   color: ${({ theme }) => theme.colors.secondaryText};

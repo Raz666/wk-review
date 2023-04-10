@@ -10,7 +10,10 @@ export const store = configureStore({
     subject: subjectReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+    getDefaultMiddleware({
+      immutableCheck: { warnAfter: 128 },
+      serializableCheck: { warnAfter: 128 },
+    }).concat(api.middleware),
 });
 
 setupListeners(store.dispatch);
