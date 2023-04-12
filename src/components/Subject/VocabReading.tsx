@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
 
-import { DefaultText, H3, P } from "../../styles";
+import { DefaultText, H4, P } from "../../styles";
 import { PronunciationAudio, Reading as ReadingModel } from "../../api/models";
 
 type Props = {
@@ -15,7 +15,7 @@ export const VocabReadings = ({ readings, audios }: Props) => {
 
   return (
     <>
-      <H3>{reading}</H3>
+      <H4>{reading}</H4>
       <Col>
         {mpegAudios?.map((a, index) => (
           <Audio key={index}>

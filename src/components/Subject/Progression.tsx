@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H3, P } from "../../styles";
+import { H2, H4, P } from "../../styles";
 import { ReviewStatistic, SrsStage } from "../../api/models";
 import {
   useGetReviewsQuery,
@@ -97,15 +97,15 @@ const ProgressionDetails = ({
 
   return (
     <>
-      <H3>Combined Answered Correct</H3>
+      <H4>Combined Answered Correct</H4>
       <P>{percentage_correct}</P>
-      <H3>Meaning Answered Correct</H3>
+      <H4>Meaning Answered Correct</H4>
       <P>{percentage_correctMeaning}</P>
       <Row>
         <P>Current Streak {meaning_current_streak}</P>
         <P>Longest Streak {meaning_max_streak}</P>
       </Row>
-      <H3>Reading Answered Correct</H3>
+      <H4>Reading Answered Correct</H4>
       <P>{percentage_correctReading}</P>
       <Row>
         <P>Current Streak {reading_current_streak}</P>
@@ -121,7 +121,7 @@ const Row = styled.View`
   align-items: baseline;
 `;
 
-const StageName = styled(H3)`
+const StageName = styled(H4)`
   font-weight: bold;
   vertical-align: bottom;
 `;

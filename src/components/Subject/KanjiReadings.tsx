@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
 
-import { H3, P } from "../../styles";
+import { H4, P } from "../../styles";
 import { Reading as ReadingModel } from "../../api/models";
 
 type Props = {
@@ -38,7 +38,7 @@ export const KanjiReadings = ({ readings }: Props) => {
     <Row>
       {readingSet.map((r, index) => (
         <ReadingCol key={index} accepted={getIsAccepted(r.readings)}>
-          <H3>{r.label}</H3>
+          <H4>{r.label}</H4>
           <P>{getListedReadings(r.readings)}</P>
         </ReadingCol>
       ))}

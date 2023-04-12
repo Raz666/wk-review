@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H3, P, Divider, DefaultText } from "../../styles";
+import { H2, H4, P, Divider, DefaultText } from "../../styles";
 import { ContextSentence } from "../../api/models";
 
 type Props = {
@@ -15,7 +15,7 @@ export const Context = ({ sentences }: Props) => {
       <H2>Context</H2>
       <Divider />
 
-      <H3>Context Sentences</H3>
+      <H4>Context Sentences</H4>
       <Col>
         {sentences.map((s, index) => (
           <View key={index}>

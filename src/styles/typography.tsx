@@ -23,6 +23,12 @@ export const H3 = styled(DefaultText)`
   font-weight: ${({ theme }) => theme.fontWeight.light};
 `;
 
+export const H4 = styled(DefaultText)`
+  margin: 16px 0 8px 0;
+  font-size: ${({ theme }) => numberToPx(theme.fontSize.h4)};
+  font-weight: ${({ theme }) => theme.fontWeight.light};
+`;
+
 export const P = styled(DefaultText)`
   line-height: ${({ theme }) =>
     numberToPx(theme.fontSize.default + theme.fontSize.default * 0.6)};

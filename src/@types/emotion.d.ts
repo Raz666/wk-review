@@ -10,6 +10,7 @@ declare module "@emotion/react" {
       buttonText: string;
       hintBg: string;
       hintText: string;
+      newBg: string;
       levelBg: string;
       levelBorder: string;
       levelText: string;
@@ -27,6 +28,7 @@ declare module "@emotion/react" {
       h1: number;
       h2: number;
       h3: number;
+      h4: number;
       badge: number;
       default: number;
       small: number;

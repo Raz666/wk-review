@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H3, P, Divider, DefaultText } from "../../styles";
+import { H2, H4, P, Divider, DefaultText } from "../../styles";
 import { SubjectResource, SubjectType } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
 import { Hints, MnemonicText } from "./common";
@@ -78,7 +78,7 @@ export const Meaning = ({ subject }: Props) => {
         ) : null}
       </Col>
 
-      <H3>Mnemonic</H3>
+      <H4>Mnemonic</H4>
       <MnemonicText mnemonic={meaning_mnemonic} />
 
       {meaning_hint ? (
@@ -87,7 +87,7 @@ export const Meaning = ({ subject }: Props) => {
         </Hints>
       ) : null}
 
-      <H3>Note</H3>
+      <H4>Note</H4>
       <P>{studyMats?.meaning_note || "Click to add note (TBD)"}</P>
     </>
   );

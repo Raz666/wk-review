@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { H2, H3, P, Divider } from "../../styles";
+import { H2, H4, P, Divider } from "../../styles";
 import { SubjectResource } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
 import { Hints, MnemonicText } from "./common";
@@ -37,7 +37,7 @@ export const Reading = ({ subject }: Props) => {
 
       {reading_mnemonic ? (
         <>
-          <H3>{isKanji ? "Mnemonic" : "Explanation"}</H3>
+          <H4>{isKanji ? "Mnemonic" : "Explanation"}</H4>
           <MnemonicText mnemonic={reading_mnemonic} />
         </>
       ) : null}
@@ -48,7 +48,7 @@ export const Reading = ({ subject }: Props) => {
         </Hints>
       ) : null}
 
-      <H3>Note</H3>
+      <H4>Note</H4>
       {isFetching ? (
         <ActivityIndicator />
       ) : (

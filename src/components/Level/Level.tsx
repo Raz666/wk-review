@@ -3,8 +3,10 @@ import styled from "@emotion/native";
 
 import { SubjectsCollection } from "../../api/models";
 import { SubjectList } from "../common";
-import { H1 } from "../../styles";
+import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
+import { numberToPx } from "../../styles/helpers";
+import { Legend } from "./Legend";
 
 type Props = {
   subjects: SubjectsCollection;
@@ -15,10 +17,18 @@ export const Level = ({ subjects, goToSubject }: Props) => {
   const radicals = subjects.data.filter((d) => d.object === "radical");
   const kanji = subjects.data.filter((d) => d.object === "kanji");
   const vocabs = subjects.data.filter((d) => d.object === "vocabulary");
+  const level = subjects.data[0].data.level;
 
   return (
     <Container>
       <Col>
+        <Row>
+          <H1>Level {level}</H1>
+          <StyledH2>Radicals, kanji & vocabulary</StyledH2>
+        </Row>
+
+        <Legend />
+
         <TypeSection
           type={"radical"}
           header="Radicals"
@@ -53,8 +63,15 @@ const Col = styled.View`
   gap: 24px;
 `;
 
-const Header = styled(H1)`
-  padding: 16px;
-  background-color: ${({ theme }) => theme.colors.hintBg};
+const Row = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const StyledH2 = styled(H3)`
+  margin: 0;
   color: ${({ theme }) => theme.colors.secondaryText};
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
+  text-transform: capitalize;
 `;
