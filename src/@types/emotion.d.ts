@@ -11,6 +11,7 @@ declare module "@emotion/react" {
       hintBg: string;
       hintText: string;
       newBg: string;
+      newBorder: string;
       levelBg: string;
       levelBorder: string;
       levelText: string;
@@ -21,6 +22,7 @@ declare module "@emotion/react" {
       radicalBg: string;
       radicalBorder: string;
       burnedBg: string;
+      burnedBorder: string;
       subjectText: string;
     };
     fontSize: {

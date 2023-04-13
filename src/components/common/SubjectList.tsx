@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
 import styled from "@emotion/native";
 
 import {
@@ -10,6 +10,7 @@ import {
 } from "../../api/models";
 import { numberToPx } from "../../styles/helpers";
 import { Character } from "../Subject/common";
+import { CircleBadge } from "../Level/CircleBadge";
 
 type Props = {
   type: SubjectType;
@@ -26,27 +27,42 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
   return (
     <>
       {subjects.map((s) => (
-        <Box key={s.id} type={type} onPress={() => goToSubject(s.id)}>
-          <Row>
-            <Characters>
-              <Character
-                object="radical"
-                characters={s.data.characters}
-                charImages={s.data.character_images}
-              />
-            </Characters>
-            <Column>
-              {s.data.readings ? (
-                <Detail>{getReading(s.data.readings)}</Detail>
-              ) : null}
-              <Detail>{getMeaning(s.data.meanings)}</Detail>
-            </Column>
-          </Row>
-        </Box>
+        <Pressable key={s.id} onPress={() => goToSubject(s.id)}>
+          <Box
+            type={type}
+            source={true ? require("../../../assets/stripes.png") : []}
+          >
+            <BadgeContainer>
+              <CircleBadge type="new" size="sm" />
+            </BadgeContainer>
+            <Row>
+              <Characters>
+                <Character
+                  object="radical"
+                  characters={s.data.characters}
+                  charImages={s.data.character_images}
+                />
+              </Characters>
+              <Column>
+                {s.data.readings ? (
+                  <Detail>{getReading(s.data.readings)}</Detail>
+                ) : null}
+                <Detail>{getMeaning(s.data.meanings)}</Detail>
+              </Column>
+            </Row>
+          </Box>
+        </Pressable>
       ))}
     </>
   );
 };
+
+const BadgeContainer = styled.View`
+  position: absolute;
+  top: -1px;
+  left: -4px;
+  z-index: 1;
+`;
 
 const Row = styled.View`
   flex-direction: row;
@@ -59,7 +75,7 @@ const Column = styled.View`
   justify-content: space-between;
 `;
 
-const Box = styled.Pressable<{ type: SubjectType }>`
+const Box = styled.ImageBackground<{ type: SubjectType }>`
   width: 100%;
   margin-bottom: 4px;
   padding: 6px 8px;

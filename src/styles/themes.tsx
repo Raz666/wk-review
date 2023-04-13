@@ -10,6 +10,7 @@ export const lightTheme: Theme = {
     hintBg: "#e1e1e1",
     hintText: "#666",
     newBg: "#f03",
+    newBorder: "#cc0029",
     levelBg: "#a1a1a1",
     levelBorder: "#888",
     levelText: "#d5d5d5",
@@ -20,6 +21,7 @@ export const lightTheme: Theme = {
     radicalBg: "#0af",
     radicalBorder: "#08c",
     burnedBg: "#555",
+    burnedBorder: "#444",
     subjectText: "#fff",
   },
   fontSize: {
