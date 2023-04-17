@@ -1,12 +1,24 @@
 import React from "react";
+import { FlatList } from "react-native";
 import styled from "@emotion/native";
 
-import { SubjectsCollection } from "../../api/models";
+import {
+  Subject,
+  SubjectResource,
+  SubjectsCollection,
+  SubjectType,
+} from "../../api/models";
 import { SubjectList } from "../common";
 import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
 import { numberToPx } from "../../styles/helpers";
 import { Legend } from "./Legend";
+
+type LevelSubjectGroup = {
+  type: SubjectType;
+  name: string;
+  subjects: SubjectResource[];
+};
 
 type Props = {
   subjects: SubjectsCollection;
@@ -18,6 +30,15 @@ export const Level = ({ subjects, goToSubject }: Props) => {
   const kanji = subjects.data.filter((d) => d.object === "kanji");
   const vocabs = subjects.data.filter((d) => d.object === "vocabulary");
   const level = subjects.data[0].data.level;
+  const dataList: LevelSubjectGroup[] = [
+    {
+      type: "radical",
+      name: "Radicals",
+      subjects: radicals,
+    },
+    { type: "kanji", name: "Kanji", subjects: kanji },
+    { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
+  ];
 
   return (
     <Container>
@@ -29,24 +50,32 @@ export const Level = ({ subjects, goToSubject }: Props) => {
 
         <Legend />
 
-        <TypeSection
-          type={"radical"}
-          header="Radicals"
-          subjects={radicals}
-          goToSubject={goToSubject}
-        />
-        <TypeSection
-          type={"kanji"}
-          header="Kanji"
-          subjects={kanji}
-          goToSubject={goToSubject}
-        />
-        <TypeSection
-          type={"vocabulary"}
-          header="Vocabulary"
-          subjects={vocabs}
-          goToSubject={goToSubject}
-        />
+        {/* <FlatList
+          data={dataList}
+          renderItem={({ item }) => (
+            <TypeSection
+              type={item.type}
+              header={item.name}
+              subjects={item.subjects}
+              goToSubject={goToSubject}
+            />
+          )}
+          keyExtractor={(item) => item.type}
+          removeClippedSubviews={true} // Unmount components when outside of window
+          initialNumToRender={1} // Reduce initial render amount
+          maxToRenderPerBatch={1} // Reduce number in each render batch
+          updateCellsBatchingPeriod={100} // Increase time between renders
+          windowSize={7} // Reduce the window size
+        /> */}
+        {dataList.map((item) => (
+          <TypeSection
+            key={item.type}
+            type={item.type}
+            header={item.name}
+            subjects={item.subjects}
+            goToSubject={goToSubject}
+          />
+        ))}
       </Col>
     </Container>
   );

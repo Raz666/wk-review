@@ -31,25 +31,29 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
           <Box
             type={type}
             source={true ? require("../../../assets/stripes.png") : []}
+            resizeMode="repeat"
+            imageStyle={{ borderRadius: 3 }}
           >
-            <BadgeContainer>
-              <CircleBadge type="new" size="sm" />
-            </BadgeContainer>
-            <Row>
-              <Characters>
-                <Character
-                  object="radical"
-                  characters={s.data.characters}
-                  charImages={s.data.character_images}
-                />
-              </Characters>
-              <Column>
-                {s.data.readings ? (
-                  <Detail>{getReading(s.data.readings)}</Detail>
-                ) : null}
-                <Detail>{getMeaning(s.data.meanings)}</Detail>
-              </Column>
-            </Row>
+            <BoxContent>
+              <BadgeContainer>
+                <CircleBadge type="new" size="sm" />
+              </BadgeContainer>
+              <Row>
+                <Characters>
+                  <Character
+                    object="radical"
+                    characters={s.data.characters}
+                    charImages={s.data.character_images}
+                  />
+                </Characters>
+                <Column>
+                  {s.data.readings ? (
+                    <Detail>{getReading(s.data.readings)}</Detail>
+                  ) : null}
+                  <Detail>{getMeaning(s.data.meanings)}</Detail>
+                </Column>
+              </Row>
+            </BoxContent>
           </Box>
         </Pressable>
       ))}
@@ -78,7 +82,6 @@ const Column = styled.View`
 const Box = styled.ImageBackground<{ type: SubjectType }>`
   width: 100%;
   margin-bottom: 4px;
-  padding: 6px 8px;
   background-color: ${({ type, theme }) => {
     switch (type) {
       case "radical":
@@ -103,6 +106,9 @@ const Box = styled.ImageBackground<{ type: SubjectType }>`
     }
   }};
   border-radius: 3px;
+`;
+const BoxContent = styled.View`
+  padding: 6px 10px;
 `;
 
 const Characters = styled.Text`

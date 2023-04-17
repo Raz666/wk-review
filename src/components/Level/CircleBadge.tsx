@@ -36,6 +36,8 @@ export const CircleBadge = ({
   return (
     <StripedCircle
       source={type === "locked" ? require("../../../assets/stripes.png") : []}
+      resizeMode="repeat"
+      imageStyle={{ borderRadius: 100 }}
       type={type}
       subjectType={subjectType}
       size={size}
