@@ -15,5 +15,11 @@ export const api = createApi({
   }),
   endpoints: () => ({}),
   reducerPath: "api",
-  tagTypes: ["Subject", "StudyMaterials", "ReviewStatistics", "Reviews"],
+  tagTypes: [
+    "Subject",
+    "StudyMaterials",
+    "ReviewStatistics",
+    "Reviews",
+    "Assignments",
+  ],
 });

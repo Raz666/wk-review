@@ -5,11 +5,12 @@ import styled from "@emotion/native";
 import { SubjectResource, SubjectType } from "../../api/models";
 import { H1 } from "../../styles";
 import { SubjectList } from "../common";
+import { AssignedSubjectResource } from "./models";
 
 type Props = {
   type: SubjectType;
   header: string;
-  subjects: SubjectResource[];
+  subjects: AssignedSubjectResource[];
   goToSubject: (subjectId: number) => void;
 };
 

@@ -135,6 +135,7 @@ export type ReviewStatisticResource = Resource<ReviewStatistic>;
 export type ReviewStatisticsCollection = Collection<ReviewStatisticResource>;
 
 export enum SrsStage {
+  New = 0,
   Apprentice_1 = 1,
   Apprentice_2 = 2,
   Apprentice_3 = 3,
@@ -157,3 +158,19 @@ export type Review = {
 };
 export type ReviewResource = Resource<Review>;
 export type ReviewsCollection = Collection<ReviewResource>;
+
+export type Assignment = {
+  created_at: string;
+  subject_id: number;
+  subject_type: SubjectType;
+  srs_stage: SrsStage;
+  unlocked_at: string | null;
+  started_at: string | null;
+  passed_at: string | null;
+  burned_at: string | null;
+  available_at: string | null;
+  resurrected_at: string | null;
+  hidden: boolean;
+};
+export type AssignmentResource = Resource<Assignment>;
+export type AssignmentsCollection = Collection<AssignmentResource>;

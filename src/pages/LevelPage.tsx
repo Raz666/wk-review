@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { ActivityIndicator, StyleSheet, Text, ScrollView } from "react-native";
 
-import { useGetSubjectsQuery } from "../api/subjectApi";
+import { useGetAssignmentsQuery, useGetSubjectsQuery } from "../api/subjectApi";
 import { RootStackParams } from "../navigation/navigation.models";
 import { Level, Subject } from "../components";
 
@@ -14,9 +14,14 @@ export const LevelPage = ({ navigation, route }: Props) => {
     isFetching: isFetchingSubject,
     data: subjects,
   } = useGetSubjectsQuery({ levels: levels });
+  const {
+    isError: isErrorAssignment,
+    isFetching: isFetchingAssignment,
+    data: assignments,
+  } = useGetAssignmentsQuery({ levels: levels });
 
-  const isLoading = isFetchingSubject;
-  const isError = isErrorSubject;
+  const isLoading = isFetchingSubject || isFetchingAssignment;
+  const isError = isErrorSubject || isErrorAssignment;
 
   const goToSubject = (subjectId: number) => {
     navigation.push("Subject", { subjectId: subjectId });
@@ -28,8 +33,12 @@ export const LevelPage = ({ navigation, route }: Props) => {
         <ActivityIndicator />
       ) : (
         <>
-          {subjects ? (
-            <Level subjects={subjects} goToSubject={goToSubject} />
+          {subjects && subjects.data && assignments && assignments.data ? (
+            <Level
+              subjects={subjects.data}
+              assignments={assignments.data}
+              goToSubject={goToSubject}
+            />
           ) : null}
 
           {isError ? <Text>{isError.toString()}</Text> : null}

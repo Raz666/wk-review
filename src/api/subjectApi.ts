@@ -1,4 +1,5 @@
 import {
+  AssignmentsCollection,
   ReviewsCollection,
   ReviewStatisticsCollection,
   StudyMaterialsCollection,
@@ -41,6 +42,16 @@ export const subjectApi = api.injectEndpoints({
       providesTags: ["Reviews"],
       query: ({ subjectId }) => `/reviews?subject_ids=${subjectId}`,
     }),
+    getAssignments: build.query<
+      AssignmentsCollection,
+      { subjectIds?: number[]; levels?: number[] }
+    >({
+      providesTags: ["Assignments"],
+      query: ({ subjectIds, levels }) =>
+        "/assignments?" +
+        (subjectIds ? `ids=${subjectIds}` : "") +
+        (levels ? `levels=${levels}` : ""),
+    }),
   }),
   overrideExisting: false,
 });
@@ -51,4 +62,5 @@ export const {
   useGetStudyMaterialsQuery,
   useGetReviewStatsQuery,
   useGetReviewsQuery,
+  useGetAssignmentsQuery,
 } = subjectApi;

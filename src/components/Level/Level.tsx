@@ -3,6 +3,8 @@ import { FlatList } from "react-native";
 import styled from "@emotion/native";
 
 import {
+  AssignmentResource,
+  SrsStage,
   Subject,
   SubjectResource,
   SubjectsCollection,
@@ -13,32 +15,47 @@ import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
 import { numberToPx } from "../../styles/helpers";
 import { Legend } from "./Legend";
-
-type LevelSubjectGroup = {
-  type: SubjectType;
-  name: string;
-  subjects: SubjectResource[];
-};
+import { useGetAssignmentsQuery } from "../../api/subjectApi";
+import { AssignedSubjectResource, LevelSubjectGroup } from "./models";
 
 type Props = {
-  subjects: SubjectsCollection;
+  subjects: SubjectResource[];
+  assignments: AssignmentResource[];
   goToSubject: (subjectId: number) => void;
 };
 
-export const Level = ({ subjects, goToSubject }: Props) => {
-  const radicals = subjects.data.filter((d) => d.object === "radical");
-  const kanji = subjects.data.filter((d) => d.object === "kanji");
-  const vocabs = subjects.data.filter((d) => d.object === "vocabulary");
-  const level = subjects.data[0].data.level;
+export const Level = ({ subjects, assignments, goToSubject }: Props) => {
+  const getSubjectsByTypeWithAssignments = (
+    type: SubjectType,
+    subjects: SubjectResource[]
+  ): AssignedSubjectResource[] =>
+    subjects
+      .filter((s) => s.object === type)
+      .map((t) => {
+        const assignment = assignments.find((a) => a.data.subject_id === t.id);
+
+        return {
+          ...t,
+          isNew: assignment?.data.srs_stage === SrsStage.New,
+          isLocked: !!assignment,
+        };
+      });
+
+  const radicals = getSubjectsByTypeWithAssignments("radical", subjects);
+  const kanji = getSubjectsByTypeWithAssignments("kanji", subjects);
+  const vocabs = getSubjectsByTypeWithAssignments("vocabulary", subjects);
+  const level = subjects[0].data.level;
   const dataList: LevelSubjectGroup[] = [
-    {
-      type: "radical",
-      name: "Radicals",
-      subjects: radicals,
-    },
+    // {
+    //   type: "radical",
+    //   name: "Radicals",
+    //   subjects: radicals,
+    // },
     { type: "kanji", name: "Kanji", subjects: kanji },
-    { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
+    // { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
   ];
+
+  // console.log(kanji.map((k) => k.id));
 
   return (
     <Container>
