@@ -1,9 +1,5 @@
 import { SubjectResource, SubjectType } from "../../api/models";
-
-export type AssignedSubjectResource = SubjectResource & {
-  isNew: boolean;
-  isLocked: boolean;
-};
+import { AssignedSubjectResource } from "../common";
 
 export type LevelSubjectGroup = {
   type: SubjectType;

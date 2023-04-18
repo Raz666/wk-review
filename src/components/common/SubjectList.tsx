@@ -11,11 +11,12 @@ import {
 import { numberToPx } from "../../styles/helpers";
 import { Character } from "../Subject/common";
 import { CircleBadge } from "../Level/CircleBadge";
+import { AssignedSubjectResource } from "./models";
 
 type Props = {
   type: SubjectType;
   goToSubject: (subjectId: number) => void;
-  subjects: SubjectResource[];
+  subjects: AssignedSubjectResource[];
 };
 
 export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
@@ -30,14 +31,16 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
         <Pressable key={s.id} onPress={() => goToSubject(s.id)}>
           <Box
             type={type}
-            source={true ? require("../../../assets/stripes.png") : []}
+            source={s.isLocked ? require("../../../assets/stripes.png") : []}
             resizeMode="repeat"
             imageStyle={{ borderRadius: 3 }}
           >
             <BoxContent>
-              <BadgeContainer>
-                <CircleBadge type="new" size="sm" />
-              </BadgeContainer>
+              {s.isNew ? (
+                <BadgeContainer>
+                  <CircleBadge type="new" size="sm" />
+                </BadgeContainer>
+              ) : null}
               <Row>
                 <Characters>
                   <Character

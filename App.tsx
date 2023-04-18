@@ -31,7 +31,7 @@ export default function App() {
                   route={{
                     key: "1",
                     name: "Level",
-                    params: { levels: props?.route?.params?.levels ?? [31] },
+                    params: { levels: props?.route?.params?.levels ?? [21] },
                   }}
                 />
               )}

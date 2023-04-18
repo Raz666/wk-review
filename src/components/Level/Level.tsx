@@ -10,13 +10,13 @@ import {
   SubjectsCollection,
   SubjectType,
 } from "../../api/models";
-import { SubjectList } from "../common";
+import { AssignedSubjectResource, SubjectList } from "../common";
 import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
 import { numberToPx } from "../../styles/helpers";
 import { Legend } from "./Legend";
 import { useGetAssignmentsQuery } from "../../api/subjectApi";
-import { AssignedSubjectResource, LevelSubjectGroup } from "./models";
+import { LevelSubjectGroup } from "./models";
 
 type Props = {
   subjects: SubjectResource[];
@@ -37,7 +37,7 @@ export const Level = ({ subjects, assignments, goToSubject }: Props) => {
         return {
           ...t,
           isNew: assignment?.data.srs_stage === SrsStage.New,
-          isLocked: !!assignment,
+          isLocked: !assignment,
         };
       });
 
@@ -46,16 +46,14 @@ export const Level = ({ subjects, assignments, goToSubject }: Props) => {
   const vocabs = getSubjectsByTypeWithAssignments("vocabulary", subjects);
   const level = subjects[0].data.level;
   const dataList: LevelSubjectGroup[] = [
-    // {
-    //   type: "radical",
-    //   name: "Radicals",
-    //   subjects: radicals,
-    // },
+    {
+      type: "radical",
+      name: "Radicals",
+      subjects: radicals,
+    },
     { type: "kanji", name: "Kanji", subjects: kanji },
-    // { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
+    { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
   ];
-
-  // console.log(kanji.map((k) => k.id));
 
   return (
     <Container>

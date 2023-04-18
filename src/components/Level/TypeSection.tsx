@@ -4,8 +4,7 @@ import styled from "@emotion/native";
 
 import { SubjectResource, SubjectType } from "../../api/models";
 import { H1 } from "../../styles";
-import { SubjectList } from "../common";
-import { AssignedSubjectResource } from "./models";
+import { AssignedSubjectResource, SubjectList } from "../common";
 
 type Props = {
   type: SubjectType;
@@ -15,10 +14,23 @@ type Props = {
 };
 
 export const TypeSection = ({ type, header, subjects, goToSubject }: Props) => {
+  const sortedSubjects = subjects.sort((a, b) => {
+    const aMeaning = a.data.meanings
+      .find((m) => m.primary)
+      ?.meaning?.replaceAll(" ", "");
+    const bMeaning = b.data.meanings
+      .find((m) => m.primary)
+      ?.meaning?.replaceAll(" ", "");
+    return aMeaning && bMeaning ? aMeaning?.localeCompare(bMeaning) : -1;
+  });
   return (
     <View>
       <Header>{header}</Header>
-      <SubjectList type={type} subjects={subjects} goToSubject={goToSubject} />
+      <SubjectList
+        type={type}
+        subjects={sortedSubjects}
+        goToSubject={goToSubject}
+      />
     </View>
   );
 };
