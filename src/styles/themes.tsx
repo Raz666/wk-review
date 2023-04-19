@@ -9,6 +9,7 @@ export const lightTheme: Theme = {
     buttonText: "#616161",
     hintBg: "#e1e1e1",
     hintText: "#666",
+    progressBarBg: "#c8c8c8",
     newBg: "#f03",
     newBorder: "#cc0029",
     levelBg: "#a1a1a1",

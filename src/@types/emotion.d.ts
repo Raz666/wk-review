@@ -10,6 +10,7 @@ declare module "@emotion/react" {
       buttonText: string;
       hintBg: string;
       hintText: string;
+      progressBarBg: string;
       newBg: string;
       newBorder: string;
       levelBg: string;
