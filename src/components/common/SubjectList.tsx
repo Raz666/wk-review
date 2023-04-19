@@ -31,6 +31,7 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
         <Pressable key={s.id} onPress={() => goToSubject(s.id)}>
           <Box
             type={type}
+            isBurned={s.isBurned}
             source={s.isLocked ? require("../../../assets/stripes.png") : []}
             resizeMode="repeat"
             imageStyle={{ borderRadius: 3 }}
@@ -42,7 +43,7 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
                 </BadgeContainer>
               ) : null}
               <Row>
-                <Characters>
+                <Characters isBurned={s.isBurned}>
                   <Character
                     object="radical"
                     characters={s.data.characters}
@@ -51,9 +52,13 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
                 </Characters>
                 <Column>
                   {s.data.readings ? (
-                    <Detail>{getReading(s.data.readings)}</Detail>
+                    <Detail isBurned={s.isBurned}>
+                      {getReading(s.data.readings)}
+                    </Detail>
                   ) : null}
-                  <Detail>{getMeaning(s.data.meanings)}</Detail>
+                  <Detail isBurned={s.isBurned}>
+                    {getMeaning(s.data.meanings)}
+                  </Detail>
                 </Column>
               </Row>
             </BoxContent>
@@ -82,10 +87,11 @@ const Column = styled.View`
   justify-content: space-between;
 `;
 
-const Box = styled.ImageBackground<{ type: SubjectType }>`
+const Box = styled.ImageBackground<{ type: SubjectType; isBurned?: boolean }>`
   width: 100%;
   margin-bottom: 4px;
-  background-color: ${({ type, theme }) => {
+  background-color: ${({ type, isBurned, theme }) => {
+    if (isBurned) return theme.colors.burnedBg;
     switch (type) {
       case "radical":
         return theme.colors.radicalBg;
@@ -97,7 +103,8 @@ const Box = styled.ImageBackground<{ type: SubjectType }>`
     }
   }};
   border-bottom-width: 3px;
-  border-color: ${({ type, theme }) => {
+  border-color: ${({ type, isBurned, theme }) => {
+    if (isBurned) return theme.colors.burnedBorder;
     switch (type) {
       case "radical":
         return theme.colors.radicalBorder;
@@ -114,15 +121,17 @@ const BoxContent = styled.View`
   padding: 6px 10px;
 `;
 
-const Characters = styled.Text`
+const Characters = styled.Text<{ isBurned?: boolean }>`
   vertical-align: middle;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.badge)};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.colors.subjectText};
+  opacity: ${({ isBurned }) => (isBurned ? "0.4" : "1")};
 `;
 
-const Detail = styled.Text`
+const Detail = styled.Text<{ isBurned?: boolean }>`
   text-align: right;
   font-size: ${({ theme }) => numberToPx(theme.fontSize.small)};
   color: ${({ theme }) => theme.colors.subjectText};
+  opacity: ${({ isBurned }) => (isBurned ? "0.4" : "1")};
 `;

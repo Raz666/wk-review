@@ -37,6 +37,7 @@ export const Level = ({ subjects, assignments, goToSubject }: Props) => {
         return {
           ...t,
           isNew: assignment?.data.srs_stage === SrsStage.New,
+          isBurned: assignment?.data.srs_stage === SrsStage.Burned,
           isLocked: !assignment,
         };
       });
