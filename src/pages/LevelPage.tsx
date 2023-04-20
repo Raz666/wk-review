@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, ScrollView } from "react-native";
 
 import { useGetAssignmentsQuery, useGetSubjectsQuery } from "../api/subjectApi";
@@ -27,8 +27,10 @@ export const LevelPage = ({ navigation, route }: Props) => {
     navigation.push("Subject", { subjectId: subjectId });
   };
 
+  const [ref, setRef] = useState<ScrollView | null>(null);
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={(ref) => setRef(ref)}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
@@ -38,6 +40,7 @@ export const LevelPage = ({ navigation, route }: Props) => {
               subjects={subjects.data}
               assignments={assignments.data}
               goToSubject={goToSubject}
+              scrollRef={ref}
             />
           ) : null}
 

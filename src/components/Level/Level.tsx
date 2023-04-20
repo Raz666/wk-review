@@ -1,5 +1,5 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React, { useState } from "react";
+import { FlatList, Pressable, ScrollView, View, Text } from "react-native";
 import styled from "@emotion/native";
 
 import {
@@ -10,7 +10,12 @@ import {
   SubjectsCollection,
   SubjectType,
 } from "../../api/models";
-import { AssignedSubjectResource, SubjectList } from "../common";
+import {
+  AssignedSubjectResource,
+  ScrollToNavigation,
+  ScrollToView,
+  SubjectList,
+} from "../common";
 import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
 import { numberToPx } from "../../styles/helpers";
@@ -22,9 +27,15 @@ type Props = {
   subjects: SubjectResource[];
   assignments: AssignmentResource[];
   goToSubject: (subjectId: number) => void;
+  scrollRef: ScrollView | null;
 };
 
-export const Level = ({ subjects, assignments, goToSubject }: Props) => {
+export const Level = ({
+  subjects,
+  assignments,
+  goToSubject,
+  scrollRef,
+}: Props) => {
   const getSubjectsByTypeWithAssignments = (
     type: SubjectType,
     subjects: SubjectResource[]
@@ -56,6 +67,12 @@ export const Level = ({ subjects, assignments, goToSubject }: Props) => {
     { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
   ];
 
+  const [dataSourceCords, setDataSourceCords] = useState<number[]>([]);
+  const navItems = dataList.map((d, index) => ({
+    name: d.name,
+    yAxisPlacement: dataSourceCords[index],
+  }));
+
   return (
     <Container>
       <Col>
@@ -66,31 +83,22 @@ export const Level = ({ subjects, assignments, goToSubject }: Props) => {
 
         <Legend />
 
-        {/* <FlatList
-          data={dataList}
-          renderItem={({ item }) => (
+        <ScrollToNavigation navItems={navItems} scrollRef={scrollRef} />
+
+        {dataList.map((item, index) => (
+          <ScrollToView
+            key={index}
+            index={index}
+            yAxisPlacements={dataSourceCords}
+            setYAxisPlacement={setDataSourceCords}
+          >
             <TypeSection
               type={item.type}
               header={item.name}
               subjects={item.subjects}
               goToSubject={goToSubject}
             />
-          )}
-          keyExtractor={(item) => item.type}
-          removeClippedSubviews={true} // Unmount components when outside of window
-          initialNumToRender={1} // Reduce initial render amount
-          maxToRenderPerBatch={1} // Reduce number in each render batch
-          updateCellsBatchingPeriod={100} // Increase time between renders
-          windowSize={7} // Reduce the window size
-        /> */}
-        {dataList.map((item) => (
-          <TypeSection
-            key={item.type}
-            type={item.type}
-            header={item.name}
-            subjects={item.subjects}
-            goToSubject={goToSubject}
-          />
+          </ScrollToView>
         ))}
       </Col>
     </Container>
