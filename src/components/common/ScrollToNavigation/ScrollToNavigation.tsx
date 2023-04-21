@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/native";
 import { Pressable, ScrollView } from "react-native";
 
-type NavItem = { name: string; yAxisPlacement: number };
+import { NavItem } from "./models";
 
 type Props = {
   navItems: NavItem[];
@@ -10,13 +10,11 @@ type Props = {
 };
 
 export const ScrollToNavigation = ({ navItems, scrollRef }: Props) => {
-  const scrollHandler = (scrollToKey: number) => {
-    console.log(scrollToKey, navItems);
+  const scrollHandler = (scrollToKey: number) =>
     scrollRef?.scrollTo({
       y: navItems[scrollToKey].yAxisPlacement,
       animated: true,
     });
-  };
 
   return (
     <Navigation>
@@ -32,15 +30,13 @@ export const ScrollToNavigation = ({ navItems, scrollRef }: Props) => {
 };
 
 const Navigation = styled.View`
-  margin-top: 16px;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 6px;
 `;
 
 const Label = styled.Text`
-  margin-right: 4px;
-  margin-bottom: 4px;
-  padding: 4px;
+  padding: 6px 8px;
   font-weight: ${({ theme }) => theme.fontWeight.regular};
 `;
 

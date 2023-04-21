@@ -1,4 +1,4 @@
-import { SubjectResource, SubjectType } from "../../api/models";
+import { SubjectType } from "../../api/models";
 import { AssignedSubjectResource } from "../common";
 
 export type LevelSubjectGroup = {

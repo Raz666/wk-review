@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-import { FlatList, Pressable, ScrollView, View, Text } from "react-native";
+import { ScrollView } from "react-native";
 import styled from "@emotion/native";
 
 import {
   AssignmentResource,
   SrsStage,
-  Subject,
   SubjectResource,
-  SubjectsCollection,
   SubjectType,
 } from "../../api/models";
+import { H1, H3 } from "../../styles";
 import {
   AssignedSubjectResource,
+  NavItem,
   ScrollToNavigation,
-  ScrollToView,
-  SubjectList,
+  NavigableView,
+  updateNavItem,
 } from "../common";
-import { H1, H2, H3, P } from "../../styles";
 import { TypeSection } from "./TypeSection";
-import { numberToPx } from "../../styles/helpers";
 import { Legend } from "./Legend";
-import { useGetAssignmentsQuery } from "../../api/subjectApi";
 import { LevelSubjectGroup } from "./models";
 
 type Props = {
@@ -67,11 +64,12 @@ export const Level = ({
     { type: "vocabulary", name: "Vocabulary", subjects: vocabs },
   ];
 
-  const [dataSourceCords, setDataSourceCords] = useState<number[]>([]);
-  const navItems = dataList.map((d, index) => ({
-    name: d.name,
-    yAxisPlacement: dataSourceCords[index],
-  }));
+  const [navItems, setNavItems] = useState<NavItem[]>(
+    dataList.map((d) => ({
+      name: d.name,
+      yAxisPlacement: 0,
+    }))
+  );
 
   return (
     <Container>
@@ -86,11 +84,11 @@ export const Level = ({
         <ScrollToNavigation navItems={navItems} scrollRef={scrollRef} />
 
         {dataList.map((item, index) => (
-          <ScrollToView
+          <NavigableView
             key={index}
             index={index}
-            yAxisPlacements={dataSourceCords}
-            setYAxisPlacement={setDataSourceCords}
+            name={item.name}
+            updateNavItem={(item) => updateNavItem(setNavItems, navItems, item)}
           >
             <TypeSection
               type={item.type}
@@ -98,7 +96,7 @@ export const Level = ({
               subjects={item.subjects}
               goToSubject={goToSubject}
             />
-          </ScrollToView>
+          </NavigableView>
         ))}
       </Col>
     </Container>

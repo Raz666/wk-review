@@ -2,10 +2,10 @@ import React from "react";
 import { View } from "react-native";
 import styled from "@emotion/native";
 
-import { SubjectResource, SubjectType } from "../../api/models";
+import { SubjectType } from "../../api/models";
 import { H1 } from "../../styles";
-import { AssignedSubjectResource, SubjectList } from "../common";
 import { numberToPx } from "../../styles/helpers";
+import { AssignedSubjectResource, SubjectList } from "../common";
 
 type Props = {
   type: SubjectType;
@@ -76,8 +76,6 @@ const UnlockedBar = styled.View<{ unlockedPercentage: number }>`
     unlockedPercentage < 20 ? "none" : "flex"};
   background-color: ${({ theme }) => theme.colors.burnedBg};
 `;
-
-const LockedBar = styled.View``;
 
 const ProgressLabel = styled.Text<{ notEnoughUnlocked?: boolean }>`
   padding: 2px 4px;
