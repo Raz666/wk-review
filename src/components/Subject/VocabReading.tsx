@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/native";
 
-import { DefaultText, H4, P } from "../../styles";
+import { DefaultText, H4 } from "../../styles";
 import { PronunciationAudio, Reading as ReadingModel } from "../../api/models";
 
 type Props = {

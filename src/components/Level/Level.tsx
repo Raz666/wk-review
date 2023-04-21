@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
 import styled from "@emotion/native";
 
 import {
@@ -15,6 +14,7 @@ import {
   ScrollToNavigation,
   NavigableView,
   updateNavItem,
+  ScrollableContent,
 } from "../common";
 import { TypeSection } from "./TypeSection";
 import { Legend } from "./Legend";
@@ -24,7 +24,6 @@ type Props = {
   subjects: SubjectResource[];
   assignments: AssignmentResource[];
   goToSubject: (subjectId: number) => void;
-  scrollRef: ScrollView | null;
 };
 
 export const Level = ({
@@ -32,7 +31,7 @@ export const Level = ({
   assignments,
   goToSubject,
   scrollRef,
-}: Props) => {
+}: Props & ScrollableContent) => {
   const getSubjectsByTypeWithAssignments = (
     type: SubjectType,
     subjects: SubjectResource[]

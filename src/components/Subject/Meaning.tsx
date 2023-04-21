@@ -1,9 +1,9 @@
 import React from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H4, P, Divider, DefaultText } from "../../styles";
-import { SubjectResource, SubjectType } from "../../api/models";
+import { H4, P, DefaultText } from "../../styles";
+import { SubjectResource } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
 import { Hints, MnemonicText } from "./common";
 
@@ -26,22 +26,8 @@ export const Meaning = ({ subject }: Props) => {
     .filter((m) => !m.primary && m.accepted_answer)
     .map((alt) => alt.meaning);
 
-  const getTitle = (object: SubjectType) => {
-    switch (object) {
-      case "radical":
-        return "Name";
-      case "vocabulary":
-        return "Explanation";
-      default:
-        return "Meaning";
-    }
-  };
-
   return (
     <>
-      <H2>{getTitle(subject.object)}</H2>
-
-      <Divider />
       <Col>
         <Row>
           <AttributeLabel>Primary</AttributeLabel>

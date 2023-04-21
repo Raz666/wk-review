@@ -1,52 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/native";
 
 import { SubjectResource } from "../../api/models";
-import { Meaning } from "./Meaning";
-import { Reading } from "./Reading";
-import { FoundIn } from "./FoundIn";
-import { RadicalCombination } from "./RadicalCombination";
-import { Progression } from "./Progression";
 import { Header } from "./Header";
-import { Context } from "./Context";
+import {
+  NavigableView,
+  NavItem,
+  ScrollableContent,
+  ScrollToNavigation,
+  updateNavItem,
+} from "../common";
+import { useSections } from "./useSections";
+import { Divider, H2 } from "../../styles";
 
 type Props = {
   subject: SubjectResource;
   goToSubject: (subjectId: number) => void;
 };
 
-export const Subject = ({ subject, goToSubject }: Props) => {
-  const { object } = subject;
-  const { amalgamation_subject_ids, component_subject_ids, context_sentences } =
-    subject.data;
+export const Subject = ({
+  subject,
+  goToSubject,
+  scrollRef,
+}: Props & ScrollableContent) => {
+  const sections = useSections({ subject, goToSubject });
 
-  const isRadical = object === "radical";
-  const isKanji = object === "kanji";
-  const isVocab = object === "vocabulary";
+  const [navItems, setNavItems] = useState<NavItem[]>(
+    sections.map((d) => ({
+      name: d.name,
+      yAxisPlacement: 0,
+    }))
+  );
 
   return (
     <Container>
       <Header subject={subject} />
-      {isKanji ? (
-        <RadicalCombination subject={subject} goToSubject={goToSubject} />
-      ) : null}
-      <Meaning subject={subject} />
-      {!isRadical ? <Reading subject={subject} /> : null}
 
-      {context_sentences ? <Context sentences={context_sentences} /> : null}
-      <FoundIn
-        type={subject.object}
-        goToSubject={goToSubject}
-        subjectIds={isVocab ? component_subject_ids : amalgamation_subject_ids}
-      />
+      <ScrollToNavigation navItems={navItems} scrollRef={scrollRef} />
 
-      <Progression subjectId={subject.id} />
+      {sections.map((section, index) => (
+        <NavigableView
+          key={index}
+          index={index}
+          name={section.name}
+          updateNavItem={(item) => updateNavItem(setNavItems, navItems, item)}
+        >
+          <>
+            {!section.hideHeader ? (
+              <>
+                <H2>{section.name}</H2>
+                <Divider />
+              </>
+            ) : null}
+
+            {section.component}
+          </>
+        </NavigableView>
+      ))}
     </Container>
   );
 };
 
 const Container = styled.View`
-  flex: 1;
   padding: 20px 4px 30px 4px;
   background-color: "#eee";
+  gap: 24px;
 `;

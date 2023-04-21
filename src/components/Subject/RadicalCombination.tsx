@@ -2,7 +2,7 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, Divider, DefaultText } from "../../styles";
+import { DefaultText } from "../../styles";
 import { SubjectResource } from "../../api/models";
 import { useGetSubjectsQuery } from "../../api/subjectApi";
 import { numberToPx } from "../../styles/helpers";
@@ -22,9 +22,6 @@ export const RadicalCombination = ({ subject, goToSubject }: Props) => {
 
   return (
     <>
-      <H2>Radical Combination</H2>
-      <Divider />
-
       {isFetching ? (
         <ActivityIndicator />
       ) : radicals ? (

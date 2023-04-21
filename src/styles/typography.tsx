@@ -13,7 +13,7 @@ export const H1 = styled(DefaultText)`
 `;
 
 export const H2 = styled(DefaultText)`
-  margin-top: 16px;
+  /* margin-top: 16px; */
   font-size: ${({ theme }) => numberToPx(theme.fontSize.h2)};
 `;
 

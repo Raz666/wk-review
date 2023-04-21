@@ -1,7 +1,7 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { H2, H4, P, Divider } from "../../styles";
+import { H4, P } from "../../styles";
 import { SubjectResource } from "../../api/models";
 import { useGetStudyMaterialsQuery } from "../../api/subjectApi";
 import { Hints, MnemonicText } from "./common";
@@ -26,9 +26,6 @@ export const Reading = ({ subject }: Props) => {
 
   return (
     <>
-      <H2>{isKanji ? "Readings" : "Reading"}</H2>
-
-      <Divider />
       {isKanji ? (
         <KanjiReadings readings={readings} />
       ) : (

@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, ScrollView } from "react-native";
 
 import { useGetSubjectQuery } from "../api/subjectApi";
@@ -22,14 +22,20 @@ export const SubjectPage = ({ navigation, route }: Props) => {
     navigation.push("Subject", { subjectId: subjectId });
   };
 
+  const [ref, setRef] = useState<ScrollView | null>(null);
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} ref={(ref) => setRef(ref)}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <>
           {subject ? (
-            <Subject subject={subject} goToSubject={goToSubject} />
+            <Subject
+              subject={subject}
+              goToSubject={goToSubject}
+              scrollRef={ref}
+            />
           ) : null}
 
           {isError ? <Text>{isError.toString()}</Text> : null}
