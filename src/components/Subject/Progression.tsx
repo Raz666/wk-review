@@ -2,12 +2,13 @@ import React from "react";
 import { ActivityIndicator } from "react-native";
 import styled from "@emotion/native";
 
-import { H2, H4, P } from "../../styles";
+import { DefaultText, H2, H4, P } from "../../styles";
 import { ReviewStatistic, SrsStage } from "../../api/models";
 import {
   useGetReviewsQuery,
   useGetReviewStatsQuery,
 } from "../../api/subjectApi";
+import { ProgressBar } from "../common";
 
 type Props = {
   subjectId: number;
@@ -58,7 +59,7 @@ export const Progression = ({ subjectId }: Props) => {
   return (
     <>
       <Row>
-        <H2>Your Progression</H2>
+        <H2>Progress</H2>
         <StageName>{getSrsStageName(lastReview?.ending_srs_stage)}</StageName>
       </Row>
       {isFetching ? (
@@ -76,6 +77,7 @@ const ProgressionDetails = ({
   reviewStats: ReviewStatistic;
 }) => {
   const {
+    subject_type,
     meaning_correct,
     meaning_current_streak,
     meaning_incorrect,
@@ -87,30 +89,76 @@ const ProgressionDetails = ({
     reading_max_streak,
   } = reviewStats;
 
-  const percentage_correctMeaning = Math.round(
-    (meaning_correct / (meaning_correct + meaning_incorrect)) * 100
-  );
-
-  const percentage_correctReading = Math.round(
-    (reading_correct / (reading_correct + reading_incorrect)) * 100
-  );
+  const notRadical = subject_type !== "radical";
+  const total =
+    meaning_correct + meaning_incorrect + reading_correct + reading_incorrect;
 
   return (
     <>
-      <H4>Combined Answered Correct</H4>
-      <P>{percentage_correct}</P>
-      <H4>Meaning Answered Correct</H4>
-      <P>{percentage_correctMeaning}</P>
-      <Row>
-        <P>Current Streak {meaning_current_streak}</P>
-        <P>Longest Streak {meaning_max_streak}</P>
-      </Row>
-      <H4>Reading Answered Correct</H4>
-      <P>{percentage_correctReading}</P>
-      <Row>
-        <P>Current Streak {reading_current_streak}</P>
-        <P>Longest Streak {reading_max_streak}</P>
-      </Row>
+      {notRadical ? (
+        <>
+          <H4>Combined Answered Correct</H4>
+          <ProgressBar percentage={percentage_correct} total={total} />
+        </>
+      ) : null}
+
+      <Progress
+        label={(notRadical ? "Meaning" : "Name") + " Answered Correct"}
+        currentStreak={meaning_current_streak}
+        maxStreak={meaning_max_streak}
+        correctCount={meaning_correct}
+        incorrectCount={meaning_incorrect}
+      />
+
+      {notRadical ? (
+        <Progress
+          label="Reading Answered Correct"
+          currentStreak={reading_current_streak}
+          maxStreak={reading_max_streak}
+          correctCount={reading_correct}
+          incorrectCount={reading_incorrect}
+        />
+      ) : null}
+    </>
+  );
+};
+
+type ProgressProps = {
+  label: string;
+  currentStreak: number;
+  maxStreak: number;
+  correctCount: number;
+  incorrectCount: number;
+};
+const Progress = ({
+  label,
+  currentStreak,
+  maxStreak,
+  correctCount,
+  incorrectCount,
+}: ProgressProps) => {
+  return (
+    <>
+      <H4>{label}</H4>
+      <StreakRow>
+        <StreakSubRow>
+          <P>Current Streak</P>
+          <StreakValue>
+            <Strong>{currentStreak}</Strong>
+          </StreakValue>
+        </StreakSubRow>
+        <StreakSubRow>
+          <P>Longest Streak</P>
+          <StreakValue>
+            <Strong>{maxStreak}</Strong>
+          </StreakValue>
+        </StreakSubRow>
+      </StreakRow>
+      <ProgressBar
+        count={correctCount}
+        total={correctCount + incorrectCount}
+        percentageInstead
+      />
     </>
   );
 };
@@ -124,4 +172,25 @@ const Row = styled.View`
 const StageName = styled(H4)`
   font-weight: bold;
   vertical-align: bottom;
+`;
+
+const StreakRow = styled.View`
+  margin-bottom: 4px;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 24px;
+`;
+const StreakSubRow = styled(StreakRow)`
+  gap: 4px;
+`;
+
+const StreakValue = styled.View`
+  padding: 2px 4px;
+  background-color: ${({ theme }) => theme.colors.secondaryText};
+  border-radius: 2px;
+`;
+
+const Strong = styled(DefaultText)`
+  font-weight: ${({ theme }) => theme.fontWeight.heavy};
+  color: ${({ theme }) => theme.colors.hintBg};
 `;
