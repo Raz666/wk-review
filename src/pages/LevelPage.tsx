@@ -23,10 +23,6 @@ export const LevelPage = ({ navigation, route }: Props) => {
   const isLoading = isFetchingSubject || isFetchingAssignment;
   const isError = isErrorSubject || isErrorAssignment;
 
-  const goToSubject = (subjectId: number) => {
-    navigation.push("Subject", { subjectId: subjectId });
-  };
-
   const [ref, setRef] = useState<ScrollView | null>(null);
 
   return (
@@ -39,7 +35,6 @@ export const LevelPage = ({ navigation, route }: Props) => {
             <Level
               subjects={subjects.data}
               assignments={assignments.data}
-              goToSubject={goToSubject}
               scrollRef={ref}
             />
           ) : null}

@@ -18,10 +18,6 @@ export const SubjectPage = ({ navigation, route }: Props) => {
   const isLoading = isFetchingSubject;
   const isError = isErrorSubject;
 
-  const goToSubject = (subjectId: number) => {
-    navigation.push("Subject", { subjectId: subjectId });
-  };
-
   const [ref, setRef] = useState<ScrollView | null>(null);
 
   return (
@@ -30,13 +26,7 @@ export const SubjectPage = ({ navigation, route }: Props) => {
         <ActivityIndicator />
       ) : (
         <>
-          {subject ? (
-            <Subject
-              subject={subject}
-              goToSubject={goToSubject}
-              scrollRef={ref}
-            />
-          ) : null}
+          {subject ? <Subject subject={subject} scrollRef={ref} /> : null}
 
           {isError ? <Text>{isError.toString()}</Text> : null}
         </>

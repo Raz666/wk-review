@@ -10,10 +10,9 @@ type Props = {
   type: SubjectType;
   header: string;
   subjects: AssignedSubjectResource[];
-  goToSubject: (subjectId: number) => void;
 };
 
-export const TypeSection = ({ type, header, subjects, goToSubject }: Props) => {
+export const TypeSection = ({ type, header, subjects }: Props) => {
   const sortedSubjects = subjects.sort((a, b) => {
     const aMeaning = a.data.meanings
       .find((m) => m.primary)
@@ -31,17 +30,21 @@ export const TypeSection = ({ type, header, subjects, goToSubject }: Props) => {
   );
 
   return (
-    <View>
-      <Header>{header}</Header>
-      <ProgressBar count={unlockedSubjectCount} total={subjectCount} />
-      <SubjectList
-        type={type}
-        subjects={sortedSubjects}
-        goToSubject={goToSubject}
-      />
-    </View>
+    <Col>
+      <View>
+        <Header>{header}</Header>
+        <ProgressBar count={unlockedSubjectCount} total={subjectCount} />
+      </View>
+      <View>
+        <SubjectList type={type} subjects={sortedSubjects} />
+      </View>
+    </Col>
   );
 };
+
+const Col = styled.View`
+  gap: 4px;
+`;
 
 const Header = styled(H1)`
   padding: 16px;

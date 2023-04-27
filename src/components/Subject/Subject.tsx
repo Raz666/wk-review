@@ -15,15 +15,10 @@ import { Divider, H2 } from "../../styles";
 
 type Props = {
   subject: SubjectResource;
-  goToSubject: (subjectId: number) => void;
 };
 
-export const Subject = ({
-  subject,
-  goToSubject,
-  scrollRef,
-}: Props & ScrollableContent) => {
-  const sections = useSections({ subject, goToSubject });
+export const Subject = ({ subject, scrollRef }: Props & ScrollableContent) => {
+  const sections = useSections({ subject });
 
   const [navItems, setNavItems] = useState<NavItem[]>(
     sections.map((d) => ({

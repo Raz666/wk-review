@@ -23,13 +23,11 @@ import { LevelSubjectGroup } from "./models";
 type Props = {
   subjects: SubjectResource[];
   assignments: AssignmentResource[];
-  goToSubject: (subjectId: number) => void;
 };
 
 export const Level = ({
   subjects,
   assignments,
-  goToSubject,
   scrollRef,
 }: Props & ScrollableContent) => {
   const getSubjectsByTypeWithAssignments = (
@@ -93,7 +91,6 @@ export const Level = ({
               type={item.type}
               header={item.name}
               subjects={item.subjects}
-              goToSubject={goToSubject}
             />
           </NavigableView>
         ))}

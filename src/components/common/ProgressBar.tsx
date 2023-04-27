@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/native";
 
 import { numberToPx } from "../../styles/helpers";
-import { DefaultText, P } from "../../styles";
+import { P } from "../../styles";
 
 type Props<TPercentage = number | undefined> = TPercentage extends number
   ? {
@@ -44,10 +44,12 @@ export const ProgressBar = ({
 
         {lowCount ? getLabel() : null}
       </Bar>
-      <Legend>
-        <P>0</P>
-        <P>{total}</P>
-      </Legend>
+      {percentageInstead ? (
+        <Legend>
+          <P>0</P>
+          <P>{total}</P>
+        </Legend>
+      ) : null}
     </>
   );
 };

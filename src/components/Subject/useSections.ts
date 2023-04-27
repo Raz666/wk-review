@@ -8,10 +8,9 @@ import { Reading } from "./Reading";
 
 type Props = {
   subject: SubjectResource;
-  goToSubject: (subjectId: number) => void;
 };
 
-export const useSections = ({ subject, goToSubject }: Props) => {
+export const useSections = ({ subject }: Props) => {
   const { object } = subject;
   const isRadical = object === "radical";
   const isKanji = object === "kanji";
@@ -53,7 +52,7 @@ export const useSections = ({ subject, goToSubject }: Props) => {
   }[] = [
     {
       name: "Radical Combination",
-      component: isKanji ? RadicalCombination({ subject, goToSubject }) : null,
+      component: isKanji ? RadicalCombination({ subject }) : null,
     },
     { name: getMeaningTitle(object), component: Meaning({ subject }) },
     {
@@ -66,7 +65,7 @@ export const useSections = ({ subject, goToSubject }: Props) => {
     },
     {
       name: getFoundInTitle(object),
-      component: FoundIn({ type: object, goToSubject, subjectIds }),
+      component: FoundIn({ type: object, subjectIds }),
     },
     {
       name: "Progress",
@@ -75,8 +74,5 @@ export const useSections = ({ subject, goToSubject }: Props) => {
     },
   ];
 
-  // console.log(sections);
-  const filteredSections = sections.filter((s) => s.component !== null);
-  // console.log(filteredSections);
-  return filteredSections;
+  return sections.filter((s) => s.component !== null);
 };

@@ -1,19 +1,22 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import styled from "@emotion/native";
 
 import { DefaultText } from "../../styles";
+import { numberToPx } from "../../styles/helpers";
+import { RootStackParams } from "../../navigation/navigation.models";
 import { SubjectResource } from "../../api/models";
 import { useGetSubjectsQuery } from "../../api/subjectApi";
-import { numberToPx } from "../../styles/helpers";
 import { CharBadge } from "./common";
 
 type Props = {
   subject: SubjectResource;
-  goToSubject: (subjectId: number) => void;
 };
 
-export const RadicalCombination = ({ subject, goToSubject }: Props) => {
+export const RadicalCombination = ({ subject }: Props) => {
+  /** `| any` fixes the ts(2339) error... */
+  const navigation = useNavigation<NavigationProp<RootStackParams> | any>();
   const { component_subject_ids } = subject.data;
   const { data: radicals, isFetching } = useGetSubjectsQuery({
     subjectIds: component_subject_ids,
@@ -27,7 +30,10 @@ export const RadicalCombination = ({ subject, goToSubject }: Props) => {
       ) : radicals ? (
         <Row>
           {radicals.data.map((r, index) => (
-            <Radical key={r.id} onPress={() => goToSubject(r.id)}>
+            <Radical
+              key={r.id}
+              onPress={() => navigation.push("Subject", { subjectId: r.id })}
+            >
               <CharBadge
                 object="radical"
                 characters={r.data.characters}

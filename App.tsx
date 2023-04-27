@@ -19,10 +19,6 @@ export default function App() {
     <Provider store={store}>
       <ThemeProvider theme={scheme === "dark" ? lightTheme : lightTheme}>
         <NavigationContainer>
-          {/* <View style={styles.container}>
-            <WaniKani />
-            
-          </View> */}
           <Stack.Navigator>
             <Stack.Screen name="Level" options={{ headerShown: false }}>
               {(props) => (

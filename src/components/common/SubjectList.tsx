@@ -1,13 +1,10 @@
 import React from "react";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { Pressable } from "react-native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import styled from "@emotion/native";
 
-import {
-  Meaning,
-  Reading,
-  SubjectResource,
-  SubjectType,
-} from "../../api/models";
+import { RootStackParams } from "../../navigation/navigation.models";
+import { Meaning, Reading, SubjectType } from "../../api/models";
 import { numberToPx } from "../../styles/helpers";
 import { Character } from "../Subject/common";
 import { CircleBadge } from "../Level/CircleBadge";
@@ -15,11 +12,13 @@ import { AssignedSubjectResource } from "./models";
 
 type Props = {
   type: SubjectType;
-  goToSubject: (subjectId: number) => void;
   subjects: AssignedSubjectResource[];
 };
 
-export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
+export const SubjectList = ({ subjects, type }: Props) => {
+  /** `| any` fixes the ts(2339) error... */
+  const navigation = useNavigation<NavigationProp<RootStackParams> | any>();
+
   const getReading = (readings?: Reading[]) =>
     readings?.find((r) => r.primary)?.reading;
   const getMeaning = (meanings: Meaning[]) =>
@@ -28,7 +27,10 @@ export const SubjectList = ({ subjects, type, goToSubject }: Props) => {
   return (
     <>
       {subjects.map((s) => (
-        <Pressable key={s.id} onPress={() => goToSubject(s.id)}>
+        <Pressable
+          key={s.id}
+          onPress={() => navigation.push("Subject", { subjectId: s.id })}
+        >
           <Box
             type={type}
             isBurned={s.isBurned}

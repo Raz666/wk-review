@@ -7,11 +7,10 @@ import { useGetSubjectsQuery } from "../../api/subjectApi";
 
 type Props = {
   type: SubjectType;
-  goToSubject: (subjectId: number) => void;
   subjectIds?: number[];
 };
 
-export const FoundIn = ({ subjectIds, type, goToSubject }: Props) => {
+export const FoundIn = ({ subjectIds, type }: Props) => {
   const { data, isFetching } = useGetSubjectsQuery({
     subjectIds: subjectIds ?? [],
   });
@@ -29,11 +28,7 @@ export const FoundIn = ({ subjectIds, type, goToSubject }: Props) => {
     <ActivityIndicator />
   ) : data ? (
     <>
-      <SubjectList
-        type={getSubjectListType(type)}
-        subjects={data.data}
-        goToSubject={goToSubject}
-      />
+      <SubjectList type={getSubjectListType(type)} subjects={data.data} />
     </>
   ) : (
     <></>
