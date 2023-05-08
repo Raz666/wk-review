@@ -4,10 +4,10 @@ import { ActivityIndicator, StyleSheet, Text, ScrollView } from "react-native";
 
 import { useGetAssignmentsQuery, useGetSubjectsQuery } from "../api/subjectApi";
 import { RootStackParams } from "../navigation/navigation.models";
-import { Level, Subject } from "../components";
+import { Level } from "../components";
 
 type Props = NativeStackScreenProps<RootStackParams, "Level">;
-export const LevelPage = ({ navigation, route }: Props) => {
+export const LevelPage = ({ route }: Props) => {
   const { levels } = route.params;
   const {
     isError: isErrorSubject,

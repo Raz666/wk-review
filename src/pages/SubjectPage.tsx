@@ -7,13 +7,13 @@ import { RootStackParams } from "../navigation/navigation.models";
 import { Subject } from "../components";
 
 type Props = NativeStackScreenProps<RootStackParams, "Subject">;
-export const SubjectPage = ({ navigation, route }: Props) => {
+export const SubjectPage = ({ route }: Props) => {
   const { subjectId } = route.params;
   const {
     isError: isErrorSubject,
     isFetching: isFetchingSubject,
     data: subject,
-  } = useGetSubjectQuery({ subjectId: subjectId ?? 8456 });
+  } = useGetSubjectQuery({ subjectId: subjectId ?? 1 });
 
   const isLoading = isFetchingSubject;
   const isError = isErrorSubject;
